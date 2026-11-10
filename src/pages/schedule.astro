@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import EventsGrid from '../components/EventsGrid.astro';
+import { events } from '../data/site';
+---
+<Base title="Schedule">
+  <div class="page-hero"><div class="wrap"><h1>Schedule</h1></div></div>
+  <section class="maroon"><div class="wrap"><EventsGrid events={events} /></div></section>
+</Base>

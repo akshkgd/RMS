@@ -1,0 +1,35 @@
+---
+import { nav, site } from '../data/site';
+const { solid = false } = Astro.props;
+---
+<header class:list={{ solid }}>
+  <div class="bar">
+    <a class="brand" href="/"><span class="deva">{site.nameHi}</span><small>{site.gurukul}</small></a>
+    <input type="checkbox" id="t" hidden />
+    <label for="t" class="burger" aria-label="Menu"><b></b><b></b><b></b></label>
+    <nav aria-label="Main">{nav.map(n => <a href={n.href}>{n.label}</a>)}</nav>
+  </div>
+</header>
+<style>
+header{position:absolute;left:0;right:0;top:0;z-index:5}
+header.solid{position:relative;background:var(--maroon-d)}
+header.solid::before{display:none}
+header::before{content:'';position:absolute;inset:0 0 -50px;background:linear-gradient(#000000a0,transparent);z-index:-1;pointer-events:none}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem}
+.brand{text-decoration:none;color:#fff;display:flex;flex-direction:column;line-height:1.2;text-shadow:0 1px 6px #0008}
+.brand .deva{font-size:1.7rem}
+.brand small{color:var(--peach-d);letter-spacing:.2em;text-transform:uppercase;font-size:.62rem}
+.burger{cursor:pointer;display:grid;gap:6px;width:36px}
+.burger b{display:block;height:2px;background:#fff;box-shadow:0 1px 4px #0008}
+.burger b:nth-child(2){width:70%;justify-self:end}
+nav{display:none;position:absolute;top:100%;right:2rem;background:var(--maroon-d);min-width:220px;padding:.5rem 1.2rem}
+nav a{display:block;color:#fff;text-decoration:none;font-family:var(--jos);font-weight:600;padding:.7rem 0;border-bottom:1px solid #fff2}
+nav a:hover{color:var(--peach-d)}
+#t:checked ~ nav{display:block}
+@media(min-width:992px){
+  .burger{display:none}
+  nav{display:flex;position:static;background:none;min-width:0;padding:0;gap:2rem}
+  nav a{border:0;padding:.3rem 0;text-shadow:0 1px 6px #0009}
+}
+@media(max-width:600px){.bar{padding:1rem}nav{right:1rem}}
+</style>

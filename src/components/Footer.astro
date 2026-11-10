@@ -1,0 +1,52 @@
+---
+import { site, nav } from '../data/site';
+const real = (v: string) => !!v;
+const year = new Date().getFullYear();
+---
+<footer>
+  <div class="wrap top">
+    <div class="brand">
+      <span class="deva name">{site.nameHi}</span>
+      <small>{site.gurukul}</small>
+      <p>{site.bio}.</p>
+      <p class="loc">📍 {site.location}</p>
+    </div>
+
+    <nav class="col" aria-label="Footer">
+      <h4>Explore</h4>
+      {nav.map(n => <a href={n.href}>{n.label}</a>)}
+    </nav>
+
+    <div class="col">
+      <h4>Connect</h4>
+      <a href={site.youtube} target="_blank" rel="noopener">YouTube</a>
+      <a href={site.instagram} target="_blank" rel="noopener">Instagram — Gurukul</a>
+      <a href={site.guruInstagram} target="_blank" rel="noopener">Instagram — Maharaj Ji</a>
+      {real(site.email) && <a href={`mailto:${site.email}`}>{site.email}</a>}
+      {real(site.phone) && <a href={`tel:${site.phone.replace(/\s/g,'')}`}>{site.phone}</a>}
+    </div>
+  </div>
+  <div class="bar">
+    <div class="wrap barin">
+      <span class="deva">॥ श्री सीताराम ॥</span>
+      <span>© {year} {site.name}. All Rights Reserved</span>
+    </div>
+  </div>
+</footer>
+<style>
+footer{background:linear-gradient(180deg,#5a1428,#43101e);color:#f1e2d2;border-top:4px solid var(--peach-d)}
+.top{display:grid;grid-template-columns:1.6fr 1fr 1.2fr;gap:3rem;padding:4rem 0 3rem}
+.brand{display:flex;flex-direction:column;gap:.5rem}
+.name{font-size:2rem;color:var(--peach-d);line-height:1.2}
+.brand small{letter-spacing:.2em;text-transform:uppercase;font-size:.68rem;color:#e6cdb5}
+.brand p{max-width:34ch;font-size:.95rem;color:#e9d6c3}
+.brand .loc{margin-top:.4rem}
+.col{display:flex;flex-direction:column;gap:.55rem}
+h4{color:#fff;font-family:var(--jos);font-size:1.1rem;margin-bottom:.4rem;padding-bottom:.5rem;border-bottom:1px solid #ffffff2e;width:fit-content;padding-right:2rem}
+.col a{color:#f1e2d2;text-decoration:none;font-size:.95rem;width:fit-content}
+.col a:hover{color:var(--peach-d)}
+.bar{border-top:1px solid #ffffff1f;background:#36091a}
+.barin{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1rem 0;font-size:.85rem;color:#d9c3ad}
+.barin .deva{color:var(--peach-d)}
+@media(max-width:800px){.top{grid-template-columns:1fr;gap:2rem;padding:3rem 0 2rem}.barin{flex-direction:column;align-items:center;text-align:center}}
+</style>

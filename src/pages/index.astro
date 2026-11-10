@@ -1,0 +1,111 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import EventsGrid from '../components/EventsGrid.astro';
+import { exists } from '../lib/img';
+import { site, events, videos, book, intro, gurukul } from '../data/site';
+const hasVideo = exists('videos/intro.mp4');
+const hasPoster = exists('images/intro-poster.jpg');
+const hasGurukulPhoto = exists('images/gurukul.jpg');
+---
+<Base>
+  <!-- 1. Hero -->
+  <section class="hero">
+    <Photo file="hero.jpg" label="Hero image" ratio="16/9" arch={false} flat />
+  </section>
+
+  <!-- 2. Intro -->
+  <section class="aboutbg">
+    <div class:list={[hasVideo ? 'wrap two' : 'wrap solo']}>
+      {hasVideo && (
+        <div class="vid">
+          <video controls preload="metadata" playsinline poster={hasPoster ? '/images/intro-poster.jpg' : undefined}><source src="/videos/intro.mp4" type="video/mp4" /></video>
+        </div>
+      )}
+      <div>
+        <SectionTitle title={`${site.name} Ji`} />
+        <p class="deva iguru"><strong>{intro.guruTitle}</strong> {intro.lead}</p>
+        {intro.paras.map(t => <p class="deva ipara">{t}</p>)}
+        <a class="btn" href="/about">View More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Upcoming events -->
+  <section class="maroon events">
+    <div class="wrap">
+      <SectionTitle title="Upcoming Events" center orn light />
+      <EventsGrid events={events} />
+    </div>
+  </section>
+
+  <!-- 4. Gurukul -->
+  <section class="cream">
+    <div class:list={[hasGurukulPhoto ? 'wrap two' : 'wrap solo']}>
+      {hasGurukulPhoto && <Photo file="gurukul.jpg" label="Vaishnav Vidyapeetham" ratio="4/3" arch={false} />}
+      <div>
+        <SectionTitle title={site.gurukul} />
+        <p class="deva gkp">{gurukul.text}</p>
+        <ul class="deva list">{gurukul.subjects.map(x => <li>{x}</li>)}</ul>
+        <p style="margin-top:1.4rem"><a class="tlink" href="/about">About the Gurukul →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Book -->
+  <section class="sand">
+    <div class="wrap two">
+      <div class="cover"><img src="/images/book.webp" alt={`${book.title} book cover`} loading="lazy" /></div>
+      <div>
+        <SectionTitle title={book.title} sub={book.subtitle} />
+        {book.role && <p class="brole">{book.role} {site.name}</p>}
+        <p class="brole">Original work by {book.originalAuthor}</p>
+        {book.text.map(t => <p style="margin-top:1rem">{t}</p>)}
+        <p style="margin-top:1.5rem"><a class="btn" href={book.cta.href}>{book.cta.label}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Recent videos -->
+  <section class="cream">
+    <div class="wrap center">
+      <SectionTitle title="Recent Videos" center orn />
+      <div class="grid vgrid">
+        {videos.map(v => (
+          <div class="yt">
+            <iframe src={`https://www.youtube.com/embed/${v.id}`} title={v.title} loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        ))}
+      </div>
+      <p style="margin-top:2rem"><a class="btn" href={site.youtube} target="_blank" rel="noopener">More Videos</a></p>
+    </div>
+  </section>
+</Base>
+<style>
+.hero{padding:0;height:100vh;min-height:520px;overflow:hidden;background:var(--maroon-d)}
+.aboutbg{position:relative;isolation:isolate;background:#f3dcc4;color:#2b1018;padding:6rem 0}
+.aboutbg::before{content:'';position:absolute;inset:0;z-index:-1;background:url(/images/about-bg.webp) center/cover no-repeat;filter:sepia(.55) saturate(.8) hue-rotate(-6deg)}
+.vid{width:100%;aspect-ratio:16/9;background:#000}
+.vid video{display:block;width:100%;height:100%;object-fit:cover}
+.iguru{margin:0 0 1.2rem;line-height:1.8}
+.iguru strong{color:var(--maroon-d);font-weight:400}
+.ipara{margin-bottom:1.2rem;line-height:1.9}
+.events{padding:110px 0 80px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 0%,#a63a4f55,transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 110%,#00000066,transparent 70%),
+    linear-gradient(180deg,#6b1a32 0%,#4a0f22 55%,#36091a 100%)}
+.events::before,.events::after{content:'';position:absolute;width:640px;height:640px;background:url(/images/mandala.svg) center/contain no-repeat;opacity:.14;pointer-events:none}
+.events::before{left:-260px;top:-120px}
+.events::after{right:-260px;bottom:-160px}
+.events .wrap{position:relative;z-index:1}
+.gkp{font-size:1.1rem;line-height:1.9;margin-bottom:1.4rem}
+.cover{width:min(320px,100%);margin-inline:auto}
+.cover img{display:block;width:100%;height:auto}
+.bsub{color:var(--maroon);margin-top:.2rem}
+.brole{font-size:.9rem;color:#6b5a50;margin-top:.5rem}
+.vgrid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.yt{aspect-ratio:16/9;background:#000;border:6px solid #fff;box-shadow:0 10px 30px #5a142833}
+.yt iframe{width:100%;height:100%;border:0;display:block}
+</style>

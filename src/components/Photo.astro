@@ -1,0 +1,16 @@
+---
+import { exists } from '../lib/img';
+const { file, label, ratio = '4/5', arch = true, flat = false } = Astro.props;
+const ok = exists(`images/${file}`);
+---
+{ok
+  ? <img class:list={['ph', { arch, flat }]} src={`/images/${file}`} alt={label} style={`aspect-ratio:${ratio}`} loading="lazy" />
+  : import.meta.env.DEV
+    ? <div class="photo" style={`aspect-ratio:${ratio}`}>{label}<br /><small>(dev only: add public/images/{file})</small></div>
+    : null}
+<style>
+.ph{width:100%;object-fit:cover;display:block}
+.ph.arch{border-radius:200px 200px 18px 18px}
+.ph.flat{height:100%}
+.photo{background:#e6d9c3;display:grid;place-items:center;text-align:center;padding:1.5rem;color:#8a7a62}
+</style>
