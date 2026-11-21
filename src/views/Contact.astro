@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import { site } from '../data/site';
+import { content, type Lang } from '../data/i18n';
+const { lang = 'hi' } = Astro.props as { lang?: Lang };
+const c = content[lang];
+const ui = c.ui;
+const wa = site.whatsapp ? `https://wa.me/${site.whatsapp}` : '';
+const tel = site.phone ? `tel:${site.phone.replace(/\s/g, '')}` : '';
+---
+<Base lang={lang} title={ui.contact}>
+  <div class="page-hero"><div class="wrap"><h1>{ui.contact}</h1></div></div>
+  <section class="cream">
+    <div class:list={[site.formEndpoint ? 'wrap two' : 'wrap solo']}>
+      <div>
+        <SectionTitle title={ui.getInTouch} />
+        <p class:list={[lang === 'hi' ? 'deva' : '', 'intro']}>{c.contactIntro}</p>
+        {site.address && <p class="addr">{site.address}</p>}
+        <div class="actions">
+          {tel && <a class="btn" href={tel}>{ui.call} {site.phone}</a>}
+          {wa && <a class="btn" href={wa} target="_blank" rel="noopener">{ui.whatsapp}</a>}
+          {site.email && <a class="btn" href={`mailto:${site.email}`}>{site.email}</a>}
+          <a class="btn" href={site.instagram} target="_blank" rel="noopener">{ui.msgInsta}</a>
+        </div>
+      </div>
+      {site.formEndpoint && (
+        <form action={site.formEndpoint} method="post">
+          <input name="name" placeholder={ui.yourName} required />
+          <input name="email" type="email" placeholder={ui.email} required />
+          <textarea name="message" rows="5" placeholder={ui.message} required></textarea>
+          <button class="btn" type="submit">{ui.send}</button>
+        </form>
+      )}
+    </div>
+  </section>
+</Base>
+<style>
+.intro{line-height:1.9;margin-bottom:1.2rem}
+.addr{margin-bottom:1.2rem}
+.actions{display:flex;flex-wrap:wrap;gap:.8rem}
+form{display:grid;gap:1rem}
+input,textarea{font:inherit;padding:.8rem 1rem;border:1px solid #d8c8ab;background:#fff}
+button{justify-self:start}
+</style>

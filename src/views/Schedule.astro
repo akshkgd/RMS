@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import EventsGrid from '../components/EventsGrid.astro';
+import { content, type Lang } from '../data/i18n';
+const { lang = 'hi' } = Astro.props as { lang?: Lang };
+const c = content[lang];
+---
+<Base lang={lang} title={c.ui.schedule}>
+  <div class="page-hero"><div class="wrap"><h1>{c.ui.schedule}</h1></div></div>
+  <section class="maroon"><div class="wrap"><EventsGrid events={c.events} lang={lang} /></div></section>
+</Base>

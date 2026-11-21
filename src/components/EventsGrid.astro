@@ -1,20 +1,19 @@
 ---
 // Card metrics copied from the reference site: 370px card, 10px padding, 350px square image, text bar below.
-const { events } = Astro.props;
+import { content, lp } from '../data/i18n';
+const { events, lang = 'hi' } = Astro.props;
+const c = content[lang as 'hi'|'en'];
 ---
 {events.length
   ? <div class="evgrid">
       {events.map((e: any) => (
         <div class="room">
           <div class="thumb"><img src={e.image} alt={e.title} loading="lazy" /></div>
-          <a class="rbtn" href={e.href ?? '/schedule'}><span>Know More</span><i>→</i></a>
+          <a class="rbtn" href={e.href ?? lp(lang, '/schedule')}><span>{c.ui.knowMore}</span><i>→</i></a>
         </div>
       ))}
     </div>
-  : <div class="none">
-      <p class="deva">आगामी कार्यक्रमों की जानकारी जल्द ही यहाँ उपलब्ध होगी।</p>
-      <p class="en">Upcoming events will be announced here soon.</p>
-    </div>}
+  : <div class="none"><p class:list={[{deva:lang==='hi'}]}>{c.ui.noEvents}</p></div>}
 <style>
 .evgrid{display:grid;grid-template-columns:1fr;column-gap:30px;max-width:1170px;margin-inline:auto}
 @media(min-width:992px){.evgrid{grid-template-columns:repeat(3,1fr)}}
@@ -25,6 +24,5 @@ const { events } = Astro.props;
 .rbtn span{text-transform:uppercase;font-weight:600;letter-spacing:.06em}
 .rbtn i{font-style:normal;line-height:1}
 .none{text-align:center;padding:1rem 0 2rem}
-.none .deva{font-size:1.3rem;color:#fff}
-.none .en{margin-top:.4rem;color:var(--peach-d);font-size:.95rem}
+.none p{font-size:1.2rem;color:#fff}
 </style>

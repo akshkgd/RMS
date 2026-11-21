@@ -2,24 +2,32 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { site } from '../data/site';
-const { title, description = site.tagline, solidNav = false } = Astro.props;
-const full = title ? `${title} | ${site.name}` : `${site.name} — ${site.gurukul}, Vrindavan`;
+import LangSwitch from '../components/LangSwitch.astro';
+import { content, otherPath, langs, type Lang } from '../data/i18n';
+const { title, description, solidNav = false, lang = 'hi' } = Astro.props as { title?: string; description?: string; solidNav?: boolean; lang?: Lang };
+const c = content[lang];
+const full = title ? `${title} | ${c.name}` : c.defaultTitle;
+const desc = description ?? c.tagline;
+const here = Astro.url.pathname;
+const norm = (p: string) => p.replace(/\/+$/, '') || '/';
+const alt = (l: Lang) => norm(l === lang ? here : otherPath(lang, here));
 ---
 <!doctype html>
-<html lang="en">
+<html lang={c.htmlLang}>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content={description} />
+  <meta name="description" content={desc} />
   <meta property="og:title" content={full} />
-  <meta property="og:description" content={description} />
+  <meta property="og:description" content={desc} />
+  {langs.map(l => <link rel="alternate" hreflang={l} href={alt(l)} />)}
   <link rel="icon" href="/favicon.svg" />
   <title>{full}</title>
 </head>
 <body>
-  <Header solid={solidNav} />
+  <Header solid={solidNav} lang={lang} />
   <main><slot /></main>
-  <Footer />
+  <Footer lang={lang} />
+  <LangSwitch lang={lang} />
 </body>
 </html>

@@ -1,0 +1,17 @@
+---
+import { otherPath, type Lang } from '../data/i18n';
+const { lang = 'hi' } = Astro.props as { lang?: Lang };
+const other = otherPath(lang, Astro.url.pathname);
+const hi = lang === 'hi' ? Astro.url.pathname : other;
+const en = lang === 'en' ? Astro.url.pathname : other;
+---
+<nav class="lang" aria-label="Language">
+  <a href={hi} lang="hi" class:list={{ on: lang === 'hi' }} aria-current={lang === 'hi' ? 'true' : undefined}>HI</a>
+  <a href={en} lang="en" class:list={{ on: lang === 'en' }} aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+</nav>
+<style>
+.lang{position:fixed;right:.9rem;bottom:.9rem;z-index:20;display:flex;padding:3px;border-radius:999px;background:#43101ee6;box-shadow:0 2px 10px #0004;backdrop-filter:blur(4px)}
+.lang a{font-family:'Josefin Sans',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.08em;line-height:1;padding:.42rem .65rem;border-radius:999px;color:#f1e2d2;text-decoration:none}
+.lang a.on{background:var(--peach-d);color:#000;pointer-events:none}
+.lang a:not(.on):hover{color:var(--peach-d)}
+</style>

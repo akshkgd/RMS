@@ -1,0 +1,149 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import EventsGrid from '../components/EventsGrid.astro';
+import { exists } from '../lib/img';
+import { site, videos } from '../data/site';
+import { content, lp, type Lang } from '../data/i18n';
+const { lang = 'hi' } = Astro.props as { lang?: Lang };
+const c = content[lang];
+const { intro, book, gurukulInfo: gurukul, events, ui } = c;
+const dv = lang === 'hi' ? 'deva' : '';
+const hasVideo = exists('videos/intro.mp4');
+const hasPoster = exists('images/intro-poster.jpg');
+const hasGurukulPhoto = exists('images/gurukul.jpg');
+---
+<Base lang={lang}>
+  <div class="stock" id="stock" role="alert" hidden>
+    <div class="stockin">
+      <div>
+        <strong>{book.soldTitle}</strong>
+        <p>{book.soldText} <a href={site.instagram} target="_blank" rel="noopener">{book.soldLink}</a></p>
+      </div>
+      <button type="button" id="stockx" aria-label={book.close}>✕</button>
+    </div>
+  </div>
+  <!-- 1. Hero -->
+  <section class="hero">
+    <Photo file="hero.jpg" label="Hero image" ratio="16/9" arch={false} flat />
+  </section>
+
+  <!-- 2. Intro -->
+  <section class="aboutbg">
+    <div class:list={[hasVideo ? 'wrap two' : 'wrap solo']}>
+      {hasVideo && (
+        <div class="vid">
+          <video controls preload="metadata" playsinline poster={hasPoster ? '/images/intro-poster.jpg' : undefined}><source src="/videos/intro.mp4" type="video/mp4" /></video>
+        </div>
+      )}
+      <div>
+        <SectionTitle title={intro.heading} />
+        <p class:list={[dv,"iguru"]}>{intro.pre}<strong>{intro.guruTitle}</strong>{intro.post}</p>
+        {intro.paras.map(t => <p class:list={[dv,"ipara"]}>{t}</p>)}
+        <a class="btn" href={lp(lang,'/about')}>{ui.viewMore}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Upcoming events -->
+  <section class="maroon events">
+    <div class="wrap">
+      <SectionTitle title={ui.upcoming} center orn light />
+      <EventsGrid events={events} lang={lang} />
+    </div>
+  </section>
+
+  <!-- 4. Gurukul -->
+  <section class="cream">
+    <div class:list={[hasGurukulPhoto ? 'wrap two' : 'wrap solo']}>
+      {hasGurukulPhoto && <Photo file="gurukul.jpg" label={c.gurukul} ratio="4/3" arch={false} />}
+      <div>
+        <SectionTitle title={c.gurukul} />
+        <p class:list={[dv,"gkp"]}>{gurukul.text}</p>
+        <ul class:list={[dv,"list"]}>{gurukul.subjects.map(x => <li>{x}</li>)}</ul>
+        <p style="margin-top:1.4rem"><a class="tlink" href={lp(lang,'/gurukul')}>{ui.aboutGurukul}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Book -->
+  <section class="sand">
+    <div class="wrap two">
+      <div class="cover"><img src="/images/book.jpg" alt={book.alt} loading="lazy" /></div>
+      <div>
+        <SectionTitle title={book.title} sub={book.subtitle} />
+        <p class="brole">{book.by} {book.author}</p>
+        {book.text.map(t => <p style="margin-top:1rem">{t}</p>)}
+        <p style="margin-top:1.5rem"><button type="button" class="btn" id="order">{book.cta}</button></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Recent videos -->
+  <section class="cream">
+    <div class="wrap center">
+      <SectionTitle title={ui.recentVideos} center orn />
+      <div class="grid vgrid">
+        {videos.map(v => (
+          <div class="yt">
+            <iframe src={`https://www.youtube.com/embed/${v.id}`} title={v.title} loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        ))}
+      </div>
+      <p style="margin-top:2rem"><a class="btn" href={site.youtube} target="_blank" rel="noopener">{ui.moreVideos}</a></p>
+    </div>
+  </section>
+</Base>
+<script>
+  const box = document.getElementById('stock')!;
+  let timer: number;
+  const hide = () => { box.hidden = true; };
+  document.getElementById('order')?.addEventListener('click', () => {
+    box.hidden = false;
+    clearTimeout(timer);
+    timer = window.setTimeout(hide, 12000);
+  });
+  document.getElementById('stockx')?.addEventListener('click', hide);
+</script>
+<style>
+.stock{position:fixed;top:0;left:0;right:0;z-index:40;background:var(--peach-d);color:#2b1018;box-shadow:0 6px 20px #0004;border-bottom:3px solid var(--maroon)}
+.stock[hidden]{display:none}
+.stock:not([hidden]){animation:drop .3s ease-out}
+@keyframes drop{from{transform:translateY(-100%)}to{transform:none}}
+.stockin{width:min(1000px,100% - 2rem);margin-inline:auto;padding:1rem 0;display:flex;gap:1rem;align-items:flex-start;justify-content:space-between}
+.stockin strong{font-family:var(--jos);font-size:1.1rem;color:var(--maroon-d)}
+.stockin p{margin-top:.2rem;font-size:.95rem;line-height:1.6}
+.stockin a{color:var(--maroon);font-weight:600}
+.stockin button{background:none;border:0;font-size:1.2rem;cursor:pointer;color:var(--maroon-d);padding:.2rem .4rem}
+.hero{padding:0;height:100vh;min-height:520px;overflow:hidden;background:var(--maroon-d)}
+.hero :global(.ph){object-position:20% 40%}
+@media(max-width:768px){
+  .hero{height:min(88svh,125vw);min-height:420px}
+  .hero :global(.ph){object-position:12% 40%}
+}
+.aboutbg{position:relative;isolation:isolate;background:#f3dcc4;color:#2b1018;padding:6rem 0}
+.aboutbg::before{content:'';position:absolute;inset:0;z-index:-1;background:url(/images/about-bg.webp) center/cover no-repeat;filter:sepia(.55) saturate(.8) hue-rotate(-6deg)}
+.vid{width:100%;aspect-ratio:16/9;background:#000}
+.vid video{display:block;width:100%;height:100%;object-fit:cover}
+.iguru{margin:0 0 1.2rem;line-height:1.8}
+.iguru strong{color:var(--maroon-d);font-weight:400}
+.ipara{margin-bottom:1.2rem;line-height:1.9}
+.events{padding:110px 0 80px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 0%,#a63a4f55,transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 110%,#00000066,transparent 70%),
+    linear-gradient(180deg,#6b1a32 0%,#4a0f22 55%,#36091a 100%)}
+.events::before,.events::after{content:'';position:absolute;width:640px;height:640px;background:url(/images/mandala.svg) center/contain no-repeat;opacity:.14;pointer-events:none}
+.events::before{left:-260px;top:-120px}
+.events::after{right:-260px;bottom:-160px}
+.events .wrap{position:relative;z-index:1}
+.gkp{font-size:1.1rem;line-height:1.9;margin-bottom:1.4rem}
+.cover{width:min(320px,100%);margin-inline:auto}
+.cover img{display:block;width:100%;height:auto}
+.bsub{color:var(--maroon);margin-top:.2rem}
+.brole{font-size:.9rem;color:#6b5a50;margin-top:.5rem}
+.vgrid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.yt{aspect-ratio:16/9;background:#000;border:6px solid #fff;box-shadow:0 10px 30px #5a142833}
+.yt iframe{width:100%;height:100%;border:0;display:block}
+</style>

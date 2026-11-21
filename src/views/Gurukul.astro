@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import { exists } from '../lib/img';
+import { site } from '../data/site';
+import { content, type Lang } from '../data/i18n';
+const { lang = 'hi' } = Astro.props as { lang?: Lang };
+const c = content[lang];
+const { gurukulInfo: g, gurukulPage: gp, ui } = c;
+const dv = lang === 'hi' ? 'deva' : '';
+// banner: public/images/gurukul-banner.jpg. Gallery: gurukul.jpg, then gurukul-2.jpg ... gurukul-8.jpg (add files to show more)
+const hasBanner = exists('images/gurukul-banner.jpg');
+const photos = ['gurukul.jpg', ...[2, 3, 4, 5, 6, 7, 8].map(n => `gurukul-${n}.jpg`)].filter(f => exists(`images/${f}`));
+const wa = site.whatsapp ? `https://wa.me/${site.whatsapp}` : '';
+const tel = site.phone ? `tel:${site.phone.replace(/\s/g, '')}` : '';
+---
+<Base lang={lang} title={c.gurukul} solidNav>
+  {hasBanner && <div class="banner"><img src="/images/gurukul-banner.jpg" alt={gp.photoAlt} /></div>}
+
+  <section class="cream">
+    <div class="wrap solo">
+      <SectionTitle title={c.gurukul} sub={c.location} />
+      <p class:list={[dv, 'txt']}>{g.text}</p>
+    </div>
+  </section>
+
+  <section class="sand">
+    <div class="wrap solo">
+      <SectionTitle title={gp.teachTitle} />
+      <ul class:list={[dv, 'list']}>{g.subjects.map(x => <li>{x}</li>)}</ul>
+      <p class:list={[dv, 'txt', 'way']}>{gp.way}</p>
+    </div>
+  </section>
+
+  {photos.length > 0 && (
+    <section class="cream">
+      <div class="wrap">
+        <SectionTitle title={gp.galleryTitle} center orn />
+        <div class:list={['pics', { one: photos.length === 1 }]}>
+          {photos.map(f => <img src={`/images/${f}`} alt={gp.photoAlt} loading="lazy" />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="sand">
+    <div class="wrap solo">
+      <SectionTitle title={gp.contactTitle} />
+      <p class:list={[dv, 'txt']}>{c.contactIntro}</p>
+      <p class="loc">📍 {c.location}</p>
+      {site.address && <p class="loc">{site.address}</p>}
+      <div class="actions">
+        {tel && <a class="btn" href={tel}>{ui.call} {site.phone}</a>}
+        {wa && <a class="btn" href={wa} target="_blank" rel="noopener">{ui.whatsapp}</a>}
+        {site.email && <a class="btn" href={`mailto:${site.email}`}>{site.email}</a>}
+        <a class="btn" href={site.instagram} target="_blank" rel="noopener">{ui.msgInsta}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+.txt{line-height:1.9;margin-bottom:1.2rem}
+.way{margin-top:1.6rem}
+.banner{background:var(--maroon-d)}
+.banner img{display:block;width:100%;height:clamp(220px,42vw,520px);object-fit:cover;object-position:center 60%}
+.pics{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+.pics.one{grid-template-columns:1fr;max-width:900px;margin-inline:auto}
+.pics img{width:100%;height:auto;display:block}
+.pics:not(.one) img{aspect-ratio:4/3;object-fit:cover}
+.loc{margin-bottom:.8rem}
+.actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.2rem}
+</style>

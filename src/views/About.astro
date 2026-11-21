@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import { exists } from '../lib/img';
+import { site } from '../data/site';
+import { content, type Lang } from '../data/i18n';
+const { lang = 'hi' } = Astro.props as { lang?: Lang };
+const c = content[lang];
+const { intro, gurukulInfo: gurukul, ui } = c;
+const dv = lang === 'hi' ? 'deva' : '';
+const hasPortrait = exists('images/portrait.jpg');
+---
+<Base lang={lang} title={ui.about} solidNav>
+
+  <section class="cream">
+    <div class:list={[hasPortrait ? 'wrap two' : 'wrap solo']}>
+      {hasPortrait && <Photo file="portrait.jpg" label={c.name} arch={false} />}
+      <div>
+        <SectionTitle title={intro.heading} />
+        <p class:list={[dv, 'guru']}>{intro.pre}<strong>{intro.guruTitle}</strong>{intro.post}</p>
+        {intro.paras.map(t => <p class:list={[dv, 'para']}>{t}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="sand">
+    <div class="wrap solo">
+      <SectionTitle title={c.gurukul} />
+      <p class:list={[dv, 'para']}>{gurukul.text}</p>
+      <ul class:list={[dv, 'list']}>{gurukul.subjects.map(x => <li>{x}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="cream">
+    <div class="wrap solo">
+      <SectionTitle title={ui.guruParampara} />
+      <p class:list={[dv, 'para']}>{intro.guruLine(c.name, intro.guruTitle)}</p>
+      <p><a class="btn" href={site.guruInstagram} target="_blank" rel="noopener">{ui.followGuru}</a></p>
+    </div>
+  </section>
+</Base>
+<style>
+.guru{margin-bottom:1.2rem;line-height:1.8}
+.guru strong{color:var(--maroon-d);font-weight:400}
+.para{margin-bottom:1.2rem;line-height:1.9}
+</style>
