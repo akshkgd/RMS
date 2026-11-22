@@ -72,7 +72,7 @@ const hasGurukulPhoto = exists('images/gurukul.jpg');
   <!-- 5. Book -->
   <section class="sand">
     <div class="wrap two">
-      <div class="cover"><img src="/images/book.jpg" alt={book.alt} loading="lazy" /></div>
+      <div class="cover"><img src="/images/book.png" alt={book.alt} loading="lazy" /></div>
       <div>
         <SectionTitle title={book.title} sub={book.subtitle} />
         <p class="brole">{book.by} {book.author}</p>
@@ -141,7 +141,7 @@ const hasGurukulPhoto = exists('images/gurukul.jpg');
 .events .wrap{position:relative;z-index:1}
 .gkp{font-size:1.1rem;line-height:1.9;margin-bottom:1.4rem}
 .cover{width:min(320px,100%);margin-inline:auto}
-.cover img{display:block;width:100%;height:auto}
+.cover img{display:block;width:100%;height:auto;filter:drop-shadow(0 18px 14px #3a0f1c55) drop-shadow(0 4px 4px #3a0f1c33)}
 .bsub{color:var(--maroon);margin-top:.2rem}
 .brole{font-size:.9rem;color:#6b5a50;margin-top:.5rem}
 .vgrid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
