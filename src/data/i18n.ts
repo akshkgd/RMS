@@ -64,7 +64,8 @@ export const content = {
       by: 'लेखक:',
       author: 'आचार्य श्री रामसनेही मिश्र',
       text: [
-        'यह पुस्तक वैष्णव साधक की दिनचर्या और संक्षिप्त उपासना-पद्धति को सरल रूप में प्रस्तुत करती है।',
+        'वर्तमान काल में प्रामाणिक ग्रंथों के अनुशीलन हेतु किसी के पास अवकाश नहीं है। पुराणों एवं उपनिषदों में भगवदर्चन की जो शास्त्रोक्त पद्धति निरूपित की गई है, उसका स्वयं अध्ययन कर पाना जनसामान्य के लिए प्रायः असम्भव हो गया है, और इसी कारण अशास्त्रीय मान्यताओं एवं आचरण का बोलबाला बढ़ता जा रहा है। इस अभाव की पूर्ति हेतु शास्त्रसम्मत पद्धति को सरल भाषा में प्रस्तुत किया गया है, जिससे संस्कृत के ज्ञान से रहित अथवा अल्प समय वाला प्रत्येक जिज्ञासु भी इसे सहजता से पढ़कर आत्मसात् कर सके।',
+        '30 दिन के चैलेंज की तरह, सरल भाषा में लिखी गई यह उपासनात्मक पुस्तिका प्रत्येक वैष्णव के लिए है। इसके प्रथम भाग में जीवन जीने के विज्ञान को समझाया गया है, दूसरे भाग में भगवत् अर्चन की सम्पूर्ण पद्धति है, और तीसरे भाग में सर्वसाधारण के उपयोगी स्तोत्रों एवं पाठों का लघु संग्रह है।',
       ],
       cta: 'पुस्तक मँगवाएँ',
       alt: 'वैष्णवीयाराधनम् पुस्तक का आवरण',
@@ -139,7 +140,8 @@ export const content = {
       by: 'Author:',
       author: 'Acharya Shri Ramsanehi Mishra',
       text: [
-        'This book presents the daily routine of a Vaishnav practitioner and a concise method of worship in a simple form.',
+        'In the present age, hardly anyone has the leisure to study the authentic texts. The scripturally ordained method of worshipping the Lord (bhagavad-archana) laid down in the Puranas and Upanishads has become almost beyond the reach of ordinary people, and in its absence unscriptural notions and practices have come to prevail. To remedy this, the scripture-based method is presented here in simple language, so that every earnest seeker, whether without knowledge of Sanskrit or with little time to spare, may read it with ease and take it to heart.',
+        'Written in simple language in the style of a 30-day challenge, this devotional handbook is meant for every Vaishnav. Its first part explains the science of living life, the second gives the complete method of worshipping the Lord (archana), and the third is a compact collection of stotras and recitations useful to everyone.',
       ],
       cta: 'Order the Book',
       alt: 'Vaishnaviyaaradhanam book cover',
