@@ -39,9 +39,11 @@ const hasGurukulPhoto = exists('images/gurukul.jpg');
       )}
       <div>
         <SectionTitle title={intro.heading} />
-        <p class:list={[dv,"iguru"]}>{intro.pre}<strong>{intro.guruTitle}</strong>{intro.post}</p>
         {intro.paras.map(t => <p class:list={[dv,"ipara"]}>{t}</p>)}
-        <a class="btn" href={lp(lang,'/about')}>{ui.viewMore}</a>
+        <div>
+          <h3 class:list={[dv,"ischolar"]}>{intro.scholarTitle}</h3>
+          {intro.scholar.map(t => <p class:list={[dv,"ipara"]}>{t}</p>)}
+        </div>
       </div>
     </div>
   </section>
@@ -62,7 +64,7 @@ const hasGurukulPhoto = exists('images/gurukul.jpg');
         <SectionTitle title={c.gurukul} />
         <p class:list={[dv,"gkp"]}>{gurukul.text}</p>
         <ul class:list={[dv,"list"]}>{gurukul.subjects.map(x => <li>{x}</li>)}</ul>
-        <p style="margin-top:1.4rem"><a class="tlink" href={lp(lang,'/gurukul')}>{ui.aboutGurukul}</a></p>
+        <p style="margin-top:1.4rem"><a class="btn" href={lp(lang,'/gurukul')}>{ui.aboutGurukul}</a></p>
       </div>
     </div>
   </section>
@@ -126,8 +128,7 @@ const hasGurukulPhoto = exists('images/gurukul.jpg');
 .aboutbg::before{content:'';position:absolute;inset:0;z-index:-1;background:url(/images/about-bg.webp) center/cover no-repeat;filter:sepia(.55) saturate(.8) hue-rotate(-6deg)}
 .vid{width:100%;aspect-ratio:16/9;background:#000}
 .vid video{display:block;width:100%;height:100%;object-fit:cover}
-.iguru{margin:0 0 1.2rem;line-height:1.8}
-.iguru strong{color:var(--maroon-d);font-weight:400}
+.ischolar{color:var(--maroon-d);font-size:1.4rem;margin:1.6rem 0 .8rem}
 .ipara{margin-bottom:1.2rem;line-height:1.9}
 .events{padding:110px 0 80px;position:relative;overflow:hidden;
   background:

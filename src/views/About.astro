@@ -18,13 +18,19 @@ const hasPortrait = exists('images/portrait.jpg');
       {hasPortrait && <Photo file="portrait.jpg" label={c.name} arch={false} />}
       <div>
         <SectionTitle title={intro.heading} />
-        <p class:list={[dv, 'guru']}>{intro.pre}<strong>{intro.guruTitle}</strong>{intro.post}</p>
         {intro.paras.map(t => <p class:list={[dv, 'para']}>{t}</p>)}
       </div>
     </div>
   </section>
 
   <section class="sand">
+    <div class="wrap solo">
+      <SectionTitle title={intro.scholarTitle} />
+      {intro.scholar.map(t => <p class:list={[dv, 'para']}>{t}</p>)}
+    </div>
+  </section>
+
+  <section class="cream">
     <div class="wrap solo">
       <SectionTitle title={c.gurukul} />
       <p class:list={[dv, 'para']}>{gurukul.text}</p>

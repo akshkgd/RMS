@@ -12,7 +12,7 @@ export function otherPath(lang: Lang, pathname: string) {
   return p === '/' ? '/en/' : `/en${p}`;
 }
 
-const evImgs = ['e1', 'e2', 'e3', 'e4', 'e5'].map(x => `/images/events/${x}.jpg`);
+const evImgs = ['katha-3', 'katha-2', 'katha-1'].map(x => `/images/events/${x}.jpg`);
 
 export const content = {
   hi: {
@@ -31,8 +31,8 @@ export const content = {
       { href: '/contact', label: 'सम्पर्क' },
     ],
     ui: {
-      viewMore: 'और जानें', knowMore: 'जानें', moreVideos: 'और वीडियो', allVideos: 'यूट्यूब पर सभी वीडियो',
-      aboutGurukul: 'गुरुकुल के बारे में →', upcoming: 'आगामी कार्यक्रम', recentVideos: 'हाल के वीडियो',
+      viewMore: 'और जानें', viewLess: 'कम दिखाएँ', knowMore: 'जानें', moreVideos: 'और वीडियो', allVideos: 'यूट्यूब पर सभी वीडियो',
+      aboutGurukul: 'अधिक जानकारी', upcoming: 'आगामी कार्यक्रम', recentVideos: 'हाल के वीडियो',
       guruParampara: 'गुरु परम्परा', followGuru: 'महाराज जी को इंस्टाग्राम पर फ़ॉलो करें',
       schedule: 'आगामी कार्यक्रम', video: 'वीडियो', contact: 'सम्पर्क', about: 'जीवन परिचय', getInTouch: 'सम्पर्क करें',
       call: 'फ़ोन करें', whatsapp: 'व्हाट्सऐप', msgInsta: 'इंस्टाग्राम पर संदेश भेजें',
@@ -43,7 +43,9 @@ export const content = {
     },
     contactIntro: 'प्रवेश, कथा या पुस्तक के बारे में जानने के लिए नीचे दिए माध्यमों से सम्पर्क करें।',
     events: [
-      'श्री भक्तमाल कथा', 'भक्त वत्सल गोपाल', 'श्रीमद् भागवत कथा', 'श्री गिरधर लाल जी पंचम उत्सव', 'श्रीमद् भागवत',
+      'श्रीमद् भागवत कथा, वृन्दावन — 18 से 24 नवंबर',
+      'श्रीमद् भागवत कथा, चित्रकूट — 20 से 26 अक्टूबर 2026',
+      'श्रीमद् भागवत कथा, नवी मुंबई — 29 सितंबर से 5 अक्टूबर',
     ].map((title, i) => ({ title, image: evImgs[i] })),
     gurukulPage: {
       teachTitle: 'यहाँ क्या पढ़ाया जाता है',
@@ -53,8 +55,8 @@ export const content = {
       contactTitle: 'सम्पर्क',
     },
     gurukulInfo: {
-      text: 'वैष्णव विद्यापीठम् वृन्दावन में चलने वाला गुरुकुल है। यहाँ विद्यार्थी गुरु-परम्परा के अनुसार वेद, पुराण और ज्योतिष पढ़ते हैं और रोज़ नियम से सन्ध्योपासन करते हैं।',
-      subjects: ['वेद', 'पुराण', 'ज्योतिष', 'सन्ध्योपासन एवं सदाचार'],
+      text: 'वैष्णव विद्यापीठम् वृन्दावन का गुरुकुल है, जहाँ आचार्य श्री राम सनेही मिश्र जी के सान्निध्य में 150 से अधिक बटुक ब्राह्मण प्रतिदिन वेद-वेदांग आदि शास्त्रों का सांगोपांग अध्ययन करते हैं, और यह सम्पूर्ण शिक्षा निःशुल्क है। गुरु-परम्परा के अनुसार चलने वाले इस विद्यापीठ का संकल्प है कि वास्तविक गुरुकुल-परम्परा का पुनः प्रकाश हो और इस राष्ट्र में अधिक से अधिक गुरुकुलों की अभिवृद्धि हो।',
+      subjects: ['वेद', 'पुराण', 'श्रीमद् भागवत', 'राम कथा'],
     },
     book: {
       title: 'वैष्णवीयाराधनम्',
@@ -73,13 +75,16 @@ export const content = {
     },
     intro: {
       heading: 'आचार्य राम सनेही मिश्र जी',
-      pre: '',
-      guruTitle: 'श्रीमज्जगद्गुरु द्वाराचार्य श्रीअग्रपीठाधीश्वर एवं मलूकपीठाधीश्वर परम पूज्य स्वामी श्रीराजेन्द्रदास देवाचार्यजी महाराज',
-      post: ' के कृपापात्र शिष्य',
+      guruTitle: 'अग्र-मलूकपीठाधीश्वर द्वाराचार्य चतुर्थ पहाड़ी बाबा जगद्गुरु स्वामी श्री राजेंद्र दास जी महाराज',
       paras: [
-        'आचार्य राम सनेही मिश्र जी को गुरु-कृपा बहुत छोटी आयु में ही मिल गई थी। मात्र पाँच वर्ष की आयु से वे नियमपूर्वक सन्ध्योपासन करते आ रहे हैं, और पाँच वर्ष की अवस्था में ही उनकी दीक्षा भी हो गई थी।',
-        'बाल्यकाल से ही वे गुरुदेव के सान्निध्य में रहे। उसी सान्निध्य में रहकर उन्होंने वेदों, पुराणों और ज्योतिष का अध्ययन किया।',
-        'आज वे वृन्दावन में वैष्णव विद्यापीठम् गुरुकुल में विद्यार्थियों को पढ़ा रहे हैं। गुरुकुल का उद्देश्य वैष्णव जीवन जीने की शिक्षा देना और सनातन धर्म की समझ देना है, ताकि गुरु-परम्परा से मिला ज्ञान अगली पीढ़ी तक पहुँचे।',
+        'प्रातः स्मरणीय परम पूज्य सद्‌गुरुदेव अग्र-मलूकपीठाधीश्वर द्वाराचार्य चतुर्थ पहाड़ी बाबा जगद्गुरु स्वामी श्री राजेंद्र दास जी महाराज जी के अत्यंत सनेही एवं कृपापात्र शिष्य आचार्य श्री राम सनेही मिश्र जी को जन्म से ही हरि गुरु वैष्णवों की अहेतुकी कृपा प्राप्त होती आ रही है। पवित्र वैष्णव ब्राह्मण परिवार में आचार्य जी का जन्म हुआ। मात्र पांच वर्ष की आयु में आप श्री का यज्ञोपवीत एवं दीक्षा संस्कार सविधि पूज्य महराज जी की पावन मंगल उपस्थिति में संपन्न हुआ।',
+        'बाल्यावस्था के उन्हीं दिनों से ही आचार्य जी ने वैदिक परम्पराओं एवं सनातन धर्म की शास्त्रोक्त मर्यादाओं के प्रति अद्भुत निष्ठा एवं अटूट श्रद्धा का परिचय देना प्रारम्भ कर दिया था। उनका जीवन आध्यात्मिक संस्कारों एवं धर्माचरण की पावन छाया में गुरुजनों के अंतर्गत निरन्तर अभिसिंचित होता रहा। वस्तुतः इतनी छोटी आयु में धर्मानुष्ठान, साधना और गुरु-परम्परा के प्रति ऐसी गहन निष्ठा उनके विलक्षण संस्कारों, आध्यात्मिक अभिरुचि एवं धर्मनिष्ठ व्यक्तित्व का परिचायक है।',
+        'आचार्य जी ने अपना संपूर्ण जीवन हरि गुरु वैष्णव, शास्त्र एवं गौ सेवा में ही समर्पित किया है। वैष्णव विद्यापीठम् के माध्यम से प्रत्येक दिवस आप वृंदावन में 150 से अधिक बटुक ब्राह्मणों को वेद वेदांग इत्यादि शास्त्रों का सांगोपांग निःशुल्क अध्ययन करवा रहे हैं जिससे वास्तविक गुरुकुल की परम्परा का पुनः प्रकाश हो और अधिक से अधिक गुरुकुलों की इस राष्ट्र में अभिवृद्धि हो।',
+      ],
+      scholarTitle: 'विद्वत् परिचय',
+      scholar: [
+        'आचार्य जी ने संपूर्ण ऋग्वेद, संपूर्ण शुक्ल यजुर्वेद, संपूर्ण कृष्ण यजुर्वेद के संहिता पाठ का सांगोपांग अध्ययन गुरुजनों के चरणों में बैठकर किया है।',
+        'सामवेद और अथर्ववेद में भी आप श्री का प्रवेश है, जिससे आपको चारों वेदों का अच्छा ज्ञान है। षडंग वेदों में भी आपका काफी गहन अध्ययन है परंतु आपका मुख्य विषय व्याकरण एवं टीकाओं सहित श्रीमद् भागवत कथा है।',
       ],
       guruLine: (name: string, title: string) => `${name} के गुरु, ${title}।`,
     },
@@ -101,8 +106,8 @@ export const content = {
       { href: '/contact', label: 'Contact' },
     ],
     ui: {
-      viewMore: 'View More', knowMore: 'Know More', moreVideos: 'More Videos', allVideos: 'All videos on YouTube',
-      aboutGurukul: 'About the Gurukul →', upcoming: 'Upcoming Events', recentVideos: 'Recent Videos',
+      viewMore: 'View More', viewLess: 'Show Less', knowMore: 'Know More', moreVideos: 'More Videos', allVideos: 'All videos on YouTube',
+      aboutGurukul: 'More Information', upcoming: 'Upcoming Events', recentVideos: 'Recent Videos',
       guruParampara: 'Guru Parampara', followGuru: 'Follow Maharaj Ji on Instagram',
       schedule: 'Upcoming Events', video: 'Video', contact: 'Contact', about: 'Biography', getInTouch: 'Get in touch',
       call: 'Call', whatsapp: 'WhatsApp', msgInsta: 'Message on Instagram',
@@ -113,7 +118,9 @@ export const content = {
     },
     contactIntro: 'To know about admissions, katha or the book, please reach out using the options below.',
     events: [
-      'Shri Bhakt Maal Katha', 'Bhakt Vatsal Gopal', 'Shrimad Bhagwat Katha', 'Shri Girdhar Laal Ji Pancham Utsav', 'Shrimad Bhagwat',
+      'Shrimad Bhagwat Katha, Vrindavan — 18 to 24 Nov',
+      'Shrimad Bhagwat Katha, Chitrakoot — 20 to 26 Oct 2026',
+      'Shrimad Bhagwat Katha, Navi Mumbai — 29 Sep to 5 Oct',
     ].map((title, i) => ({ title, image: evImgs[i] })),
     gurukulPage: {
       teachTitle: 'What is taught here',
@@ -123,8 +130,8 @@ export const content = {
       contactTitle: 'Contact',
     },
     gurukulInfo: {
-      text: 'Vaishnav Vidyapeetham is a gurukul in Vrindavan. Students study the Vedas, Puranas and Jyotish in the guru-parampara way, and perform sandhyopasana every day with discipline.',
-      subjects: ['The Vedas', 'The Puranas', 'Jyotish (Vedic astrology)', 'Sandhyopasana & right conduct'],
+      text: 'Vaishnav Vidyapeetham is a gurukul in Vrindavan where more than 150 batuk Brahmins study the Vedas, Vedangas and other scriptures in depth every day under the guidance of Acharya Shri Ram Sanehi Mishra Ji, and all of this education is completely free of charge. Following the guru-parampara, the Vidyapeetham is committed to reviving the true gurukul tradition and to seeing more and more gurukuls flourish across this nation.',
+      subjects: ['The Vedas', 'The Puranas', 'Shrimad Bhagwat', 'Ram Katha'],
     },
     book: {
       title: 'Vaishnaviyaaradhanam',
@@ -143,13 +150,16 @@ export const content = {
     },
     intro: {
       heading: 'Acharya Ram Sanehi Mishra Ji',
-      pre: 'A beloved disciple of ',
-      guruTitle: 'Shrimaj Jagadguru Dwaracharya Shri Agrapeethadheeshwar and Malook Peethadheeshwar, Param Pujya Swami Shri Rajendra Das Devacharya Ji Maharaj',
-      post: '.',
+      guruTitle: 'Agra-Malookpeethadheeshwar Dwaracharya Chaturth Pahadi Baba Jagadguru Swami Shri Rajendra Das Ji Maharaj',
       paras: [
-        'Acharya Ram Sanehi Mishra Ji received his Guru’s grace at a very young age. He has performed sandhyopasana with discipline since the age of five, and was initiated (diksha) at that same age.',
-        'From childhood he lived in the close company of his Guru, and under that guidance studied the Vedas, the Puranas and Jyotish.',
-        'Today he teaches students at the Vaishnav Vidyapeetham gurukul in Vrindavan. The gurukul’s aim is to teach how to live a Vaishnav life and to give an understanding of Sanatan Dharma, so that the knowledge received through the guru-parampara reaches the next generation.',
+        'Acharya Shri Ram Sanehi Mishra Ji, a deeply beloved disciple and recipient of the grace of Pratah Smaraniya Param Pujya Sadgurudev Agra-Malookpeethadheeshwar Dwaracharya Chaturth Pahadi Baba Jagadguru Swami Shri Rajendra Das Ji Maharaj, has received the causeless grace of Hari, Guru and the Vaishnavas since birth. Acharya Ji was born into a pure Vaishnav Brahmin family. At just five years of age, his yajnopavita and diksha sanskar were duly performed in the holy and auspicious presence of Pujya Maharaj Ji.',
+        'From those very days of childhood, Acharya Ji began to show remarkable devotion and unwavering faith toward the Vedic traditions and the scriptural disciplines of Sanatan Dharma. His life continued to be nourished by spiritual values and righteous conduct, under the guidance of his gurus. Indeed, such deep devotion to dharmic rites, sadhana and the guru-parampara at so young an age reflects his extraordinary samskaras, his spiritual inclination and his dharma-minded personality.',
+        'Acharya Ji has dedicated his entire life to the service of Hari, Guru, the Vaishnavas, the scriptures and cows. Through Vaishnav Vidyapeetham, every day in Vrindavan he teaches more than 150 batuk Brahmins, free of charge, the Vedas, Vedangas and other scriptures in their entirety, so that the true tradition of the gurukul may shine again and more and more gurukuls may flourish across this nation.',
+      ],
+      scholarTitle: 'Scholarly Profile',
+      scholar: [
+        'Acharya Ji has studied the entire Rigveda and the Samhita recitation of the entire Shukla Yajurveda and the entire Krishna Yajurveda, completely and in depth, sitting at the feet of his gurus.',
+        'He also has access to the Samaveda and Atharvaveda, giving him a good knowledge of all four Vedas. He has studied the six Vedangas deeply as well, but his main subject is grammar and the Shrimad Bhagwat Katha along with its commentaries.',
       ],
       guruLine: (name: string, title: string) => `The guru of ${name} is ${title}.`,
     },
