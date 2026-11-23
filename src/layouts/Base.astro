@@ -11,7 +11,7 @@ const full = title ? `${title} | ${c.name}` : c.defaultTitle;
 const desc = description ?? c.tagline;
 const here = Astro.url.pathname;
 const norm = (p: string) => p.replace(/\/+$/, '') || '/';
-const GTM_ID = 'GTM-M29CNG26';
+const GA_ID = 'G-3MM2K3C63X';
 const SITE = 'https://ramsanehimishra.com';
 const canonical = SITE + norm(here);
 const ogImage = SITE + '/images/hero.jpg';
@@ -40,12 +40,12 @@ const alt = (l: Lang) => norm(l === lang ? here : otherPath(lang, here));
   {langs.map(l => <link rel="alternate" hreflang={l} href={SITE + alt(l)} />)}
   <link rel="alternate" hreflang="x-default" href={SITE + alt('hi')} />
   <script type="application/ld+json" set:html={JSON.stringify(ld)} />
-  <script is:inline set:html={`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`} />
+  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+  <script is:inline define:vars={{ GA_ID }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config',GA_ID);</script>
   <link rel="icon" href="/favicon.svg" />
   <title>{full}</title>
 </head>
 <body>
-  <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <Header solid={solidNav} lang={lang} />
   <main><slot /></main>
   <Footer lang={lang} />
