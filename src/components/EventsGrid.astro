@@ -17,12 +17,35 @@ const c = content[lang as 'hi'|'en'];
 <style>
 .evgrid{display:grid;grid-template-columns:1fr;column-gap:30px;max-width:1170px;margin-inline:auto}
 @media(min-width:992px){.evgrid{grid-template-columns:repeat(3,1fr)}}
-.room{background:var(--peach);border-radius:2px;padding:10px;margin-bottom:30px;color:#000}
+.room{background:var(--peach);border-radius:2px;padding:10px;margin-bottom:30px;color:#000;will-change:transform;position:relative}
 .thumb{aspect-ratio:1;background:#000;overflow:hidden}
 .thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .rbtn{padding:12px 0 2px;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--jos);font-size:14px;color:#000;text-decoration:none}
 .rbtn span{text-transform:uppercase;font-weight:600;letter-spacing:.06em}
-.rbtn i{font-style:normal;line-height:1}
+.rbtn i{font-style:normal;line-height:1;display:inline-block}
 .none{text-align:center;padding:1rem 0 2rem}
 .none p{font-size:1.2rem;color:#fff}
 </style>
+<script>
+  import { animate, hover, inView, stagger } from 'motion';
+  const cards = [...document.querySelectorAll<HTMLElement>('.room')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && cards.length) {
+    cards.forEach(c => { c.style.opacity = '0'; });
+    inView('.evgrid', () => {
+      animate(cards, { opacity: [0, 1], y: [40, 0] }, { duration: 0.8, delay: stagger(0.15), ease: [0.22, 1, 0.36, 1] });
+    }, { amount: 0.2 });
+    cards.forEach(card => {
+      const base = getComputedStyle(card).backgroundColor;
+      const arrow = card.querySelector<HTMLElement>('.rbtn i')!;
+      hover(card, () => {
+        animate(card, { y: -6, backgroundColor: '#ffe9d2', boxShadow: '0 16px 28px rgba(0,0,0,.35)' }, { type: 'spring', stiffness: 260, damping: 20 });
+        animate(arrow, { x: 8 }, { type: 'spring', stiffness: 300, damping: 15 });
+        return () => {
+          animate(card, { y: 0, backgroundColor: base, boxShadow: '0 0 0 rgba(0,0,0,0)' }, { type: 'spring', stiffness: 260, damping: 24 });
+          animate(arrow, { x: 0 }, { type: 'spring', stiffness: 300, damping: 20 });
+        };
+      });
+    });
+  }
+</script>

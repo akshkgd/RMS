@@ -22,9 +22,11 @@ const year = new Date().getFullYear();
 
     <div class="col">
       <h4>{c.ui.connect}</h4>
-      <a href={site.youtube} target="_blank" rel="noopener">YouTube</a>
-      <a href={site.instagram} target="_blank" rel="noopener">{c.ui.igGurukul}</a>
-      <a href={site.guruInstagram} target="_blank" rel="noopener">{c.ui.igGuru}</a>
+      <div class="socrow">
+      <a class="sl" href={site.youtube} target="_blank" rel="noopener" aria-label="YouTube"><b><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2C.5 9 .5 12 .5 12s0 3 .5 4.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.5-1.8.5-4.8.5-4.8s0-3-.5-4.8ZM9.8 15.4V8.6L15.7 12l-5.9 3.4Z"/></svg></b><span>{c.ui.ytName}</span></a>
+      <a class="sl" href={site.instagram} target="_blank" rel="noopener" aria-label={c.ui.igGurukul}><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></b><span>{c.ui.igGurukul}</span></a>
+      <a class="sl" href={site.guruInstagram} target="_blank" rel="noopener" aria-label={c.ui.igGuru}><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></b><span>{c.ui.igGuru}</span></a>
+      </div>
       {real(site.email) && <a href={`mailto:${site.email}`}>{site.email}</a>}
       {real(site.phone) && <a href={`tel:${site.phone.replace(/\s/g,'')}`}>{site.phone}</a>}
     </div>
@@ -44,6 +46,11 @@ footer{background:linear-gradient(180deg,#5a1428,#43101e);color:#f1e2d2;border-t
 .brand small{word-spacing:normal;letter-spacing:.2em;text-transform:uppercase;font-size:.68rem;color:#e6cdb5}
 .brand p{max-width:34ch;font-size:.95rem;color:#e9d6c3}
 .brand .loc{margin-top:.4rem}
+.socrow{display:flex;flex-direction:column;gap:.7rem}
+.col a.sl{display:flex;align-items:center;gap:.7rem}
+.sl b{width:2.2rem;height:2.2rem;flex:none;border-radius:50%;border:1px solid #ffffff40;display:grid;place-items:center;transition:background .25s,color .25s,border-color .25s}
+.sl svg{width:1.05rem;height:1.05rem}
+.col a.sl:hover b{background:var(--peach-d);color:#43101e;border-color:var(--peach-d)}
 .col{display:flex;flex-direction:column;gap:.55rem}
 h4{color:#fff;font-family:var(--jos);font-size:1.1rem;margin-bottom:.4rem;padding-bottom:.5rem;border-bottom:1px solid #ffffff2e;width:fit-content;padding-right:2rem}
 .col a{color:#f1e2d2;text-decoration:none;font-size:.95rem;width:fit-content}

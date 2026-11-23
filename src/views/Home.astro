@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
 import SectionTitle from '../components/SectionTitle.astro';
+import HeroCarousel from '../components/HeroCarousel.astro';
 import EventsGrid from '../components/EventsGrid.astro';
 import { exists } from '../lib/img';
 import { site, videos } from '../data/site';
@@ -26,7 +27,7 @@ const hasGurukulPhoto = exists('images/gurukul.jpg');
   </div>
   <!-- 1. Hero -->
   <section class="hero">
-    <Photo file="hero.jpg" label="Hero image" ratio="16/9" arch={false} flat />
+    <HeroCarousel slides={[{src:'/images/hero.jpg',alt:c.name},{src:'/images/hero-2.jpg',alt:c.name,pos:'30% 40%',mobile:'/images/hero-2-mobile.jpg',mpos:'50% 80%'}]} />
   </section>
 
   <!-- 2. Intro -->
