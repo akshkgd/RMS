@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import LangSwitch from '../components/LangSwitch.astro';
+import { site } from '../data/site';
 import { content, otherPath, langs, type Lang } from '../data/i18n';
 const { title, description, solidNav = false, lang = 'hi' } = Astro.props as { title?: string; description?: string; solidNav?: boolean; lang?: Lang };
 const c = content[lang];
@@ -10,6 +11,13 @@ const full = title ? `${title} | ${c.name}` : c.defaultTitle;
 const desc = description ?? c.tagline;
 const here = Astro.url.pathname;
 const norm = (p: string) => p.replace(/\/+$/, '') || '/';
+const SITE = 'https://ramsanehimishra.com';
+const canonical = SITE + norm(here);
+const ogImage = SITE + '/images/hero.jpg';
+const ld = { '@context': 'https://schema.org', '@graph': [
+  { '@type': 'Person', '@id': SITE + '/#person', name: content.en.name, alternateName: content.hi.name, url: SITE + '/', description: content.en.tagline, sameAs: [site.instagram, site.guruInstagram, site.youtube].filter(Boolean) },
+  { '@type': 'WebSite', '@id': SITE + '/#website', url: SITE + '/', name: c.name, inLanguage: ['hi', 'en'], publisher: { '@id': SITE + '/#person' } },
+] };
 const alt = (l: Lang) => norm(l === lang ? here : otherPath(lang, here));
 ---
 <!doctype html>
@@ -20,7 +28,17 @@ const alt = (l: Lang) => norm(l === lang ? here : otherPath(lang, here));
   <meta name="description" content={desc} />
   <meta property="og:title" content={full} />
   <meta property="og:description" content={desc} />
-  {langs.map(l => <link rel="alternate" hreflang={l} href={alt(l)} />)}
+  <link rel="canonical" href={canonical} />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:site_name" content={c.name} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:locale" content={lang === 'hi' ? 'hi_IN' : 'en_IN'} />
+  <meta name="twitter:card" content="summary_large_image" />
+  {langs.map(l => <link rel="alternate" hreflang={l} href={SITE + alt(l)} />)}
+  <link rel="alternate" hreflang="x-default" href={SITE + alt('hi')} />
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
   <link rel="icon" href="/favicon.svg" />
   <title>{full}</title>
 </head>

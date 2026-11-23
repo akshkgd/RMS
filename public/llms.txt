@@ -1,0 +1,15 @@
+# आचार्य श्री रामसनेही मिश्र | Acharya Shri Ramsanehi Mishra
+
+> Official website of Acharya Shri Ramsanehi Mishra, founder of Vaishnav Vidyapeetham, a gurukul at Vrindavan, India. Disciple of Rajendra Das Ji Maharaj. Bilingual: Hindi (default) and English.
+
+## Pages (Hindi)
+- [Home](https://ramsanehimishra.com/): Introduction, upcoming events, gurukul, book
+- [जीवन परिचय](https://ramsanehimishra.com/about): Biography, studies and gurus
+- [गुरुकुल](https://ramsanehimishra.com/gurukul): Vaishnav Vidyapeetham gurukul, Vrindavan
+- [संपर्क](https://ramsanehimishra.com/contact): Contact
+
+## Pages (English)
+- [Home](https://ramsanehimishra.com/en)
+- [Biography](https://ramsanehimishra.com/en/about)
+- [Gurukul](https://ramsanehimishra.com/en/gurukul)
+- [Contact](https://ramsanehimishra.com/en/contact)
