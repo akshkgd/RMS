@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import SectionTitle from '../components/SectionTitle.astro';
+import GalleryCarousel from '../components/GalleryCarousel.astro';
 import { exists } from '../lib/img';
 import { site } from '../data/site';
 import { content, type Lang } from '../data/i18n';
@@ -11,7 +12,7 @@ const dv = lang === 'hi' ? 'deva' : '';
 // banner: public/images/gurukul-banner.jpg. Gallery: gurukul.jpg, then gurukul-2.jpg ... gurukul-8.jpg (add files to show more)
 const hasBanner = exists('images/gurukul-banner.jpg');
 const photos = ['gurukul.jpg', ...[2, 3, 4, 5, 6, 7, 8].map(n => `gurukul-${n}.jpg`)].filter(f => exists(`images/${f}`));
-const wa = site.whatsapp ? `https://wa.me/${site.whatsapp}` : '';
+const wa = site.whatsapp ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(ui.waMsg)}` : '';
 const tel = site.phone ? `tel:${site.phone.replace(/\s/g, '')}` : '';
 ---
 <Base lang={lang} title={c.gurukul} solidNav>
@@ -36,9 +37,7 @@ const tel = site.phone ? `tel:${site.phone.replace(/\s/g, '')}` : '';
     <section class="cream">
       <div class="wrap">
         <SectionTitle title={gp.galleryTitle} center orn />
-        <div class:list={['pics', { one: photos.length === 1 }]}>
-          {photos.map(f => <img src={`/images/${f}`} alt={gp.photoAlt} loading="lazy" />)}
-        </div>
+        <GalleryCarousel photos={photos.map(f => `/images/${f}`)} alt={gp.photoAlt} />
       </div>
     </section>
   )}

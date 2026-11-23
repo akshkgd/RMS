@@ -5,8 +5,10 @@ export const site = {
   youtube: 'https://www.youtube.com/@sanatanadharmaraksha', // channel of the two embedded videos; confirm this is the right channel
   guruInstagram: 'https://www.instagram.com/rajendradasjimaharaj/',
   email: '',
-  phone: '',        // e.g. '+91 98765 43210' — shows Call button
-  whatsapp: '',     // digits only with country code, e.g. '919876543210' — shows WhatsApp button
+  phone: '+91 86430 26133', // e.g. '+91 98765 43210' — shows Call button
+  whatsapp: '918643026133', // digits only with country code, e.g. '919876543210' — shows WhatsApp button
+  phone2: '+91 91493 61298',   // second contact number (shown on the Contact page)
+  whatsapp2: '919149361298',   // digits only with country code
   address: '',      // full postal address, optional
   formEndpoint: '', // e.g. a Formspree URL — shows the contact form when set
   bookRole: '',     // how he is credited on the book (e.g. 'Translated by'); '' hides the line

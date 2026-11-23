@@ -1,0 +1,64 @@
+---
+import SectionTitle from './SectionTitle.astro';
+import { content, type Lang } from '../data/i18n';
+const { lang = 'hi', tone = 'cream', flush = false } = Astro.props as { lang?: Lang; tone?: string; flush?: boolean };
+const c = content[lang];
+const ui = c.ui;
+const st = c.gurukulPage.study;
+const dv = lang === 'hi' ? 'deva' : '';
+const shown = st.gurus.slice(0, st.visible);
+const rest = st.gurus.slice(st.visible);
+---
+  <section class={tone} style={flush ? 'padding-top:0' : undefined}>
+    <div class="wrap solo">
+      <SectionTitle title={st.title} />
+      <p class:list={[dv, 'txt']}>{st.intro}</p>
+      <ol class="gurus" start="1">
+        {shown.map(([n, d], i) => <li><span class="num">{i + 1}</span><div><h3 class:list={[dv]}>{n}</h3><p class:list={[dv]}>{d}</p></div></li>)}
+      </ol>
+      <div id="more" hidden>
+        <ol class="gurus" start={st.visible + 1}>
+          {rest.map(([n, d], i) => <li><span class="num">{st.visible + i + 1}</span><div><h3 class:list={[dv]}>{n}</h3><p class:list={[dv]}>{d}</p></div></li>)}
+        </ol>
+        <p class:list={[dv, 'txt', 'note']}>{st.others}</p>
+        <div class="now">
+          <h3 class:list={[dv]}>{st.nowTitle}</h3>
+          <p class:list={[dv]}>{st.now}</p>
+          <p class:list={[dv]}>{st.method}</p>
+        </div>
+      </div>
+      <p class="morebtn"><button type="button" class="btn" id="morebtn" data-more={ui.viewMore} data-less={ui.viewLess} aria-expanded="false" aria-controls="more">{ui.viewMore}</button></p>
+    </div>
+  </section>
+<style>
+.txt{line-height:1.9;margin-bottom:1.2rem}
+.gurus{list-style:none;margin:1.4rem 0 0;padding:0;display:grid;gap:1rem}
+.gurus li{display:flex;gap:1rem;background:#fff;border:1px solid #ecdcc4;border-radius:8px;padding:1rem 1.1rem;align-items:flex-start}
+.num{flex:none;width:2rem;height:2rem;border-radius:50%;background:var(--maroon);color:#fff;display:grid;place-items:center;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9rem;line-height:1;margin-top:-.25rem}
+.gurus h3{font-family:var(--jos);font-weight:500;font-size:1rem;line-height:1.5;color:var(--maroon-d);margin-bottom:.3rem}
+.gurus p{font-size:.98rem;line-height:1.85;color:#3a2a26}
+#more .gurus{margin-top:1rem}
+.note{margin-top:1.4rem}
+.now{margin-top:1.4rem;background:#fff6ea;border-radius:8px;padding:1.1rem 1.2rem}
+.now h3{font-family:var(--jos);font-weight:500;font-size:1.05rem;color:var(--maroon-d);margin-bottom:.4rem}
+.now p{line-height:1.9;color:#3a2a26}
+.now p + p{margin-top:.6rem}
+.morebtn{margin-top:1.6rem;display:flex}
+</style>
+<script>
+  import { animate } from 'motion';
+  const btn = document.getElementById('morebtn');
+  const box = document.getElementById('more');
+  btn?.addEventListener('click', () => {
+    if (!box || !btn) return;
+    const open = box.hidden;
+    if (open) {
+      box.hidden = false;
+      animate(box, { opacity: [0, 1], y: [14, 0] }, { duration: 0.5, ease: [0.22, 1, 0.36, 1] });
+    } else {
+      box.hidden = true;
+    }
+    btn.textContent = open ? btn.dataset.less! : btn.dataset.more!;
+    btn.setAttribute('aria-expanded', String(open));
+  });
+</script>

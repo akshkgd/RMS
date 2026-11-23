@@ -9,8 +9,9 @@ const year = new Date().getFullYear();
 <footer>
   <div class="wrap top">
     <div class="brand">
+      <img class="flogo" src="/images/footer-vidyapeetham.png" alt={c.gurukul} loading="lazy" />
       <span class:list={['name',{deva:lang==='hi'}]}>{c.name}</span>
-      <small>{c.gurukul}</small>
+      <small>({lang === 'hi' ? 'संस्थापक' : 'Founder'}, {c.gurukul})</small>
       <p>{c.bio}.</p>
       <p class="loc">📍 {c.location}</p>
     </div>
@@ -28,7 +29,6 @@ const year = new Date().getFullYear();
       <a class="sl" href={site.guruInstagram} target="_blank" rel="noopener" aria-label={c.ui.igGuru}><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></b><span>{c.ui.igGuru}</span></a>
       </div>
       {real(site.email) && <a href={`mailto:${site.email}`}>{site.email}</a>}
-      {real(site.phone) && <a href={`tel:${site.phone.replace(/\s/g,'')}`}>{site.phone}</a>}
     </div>
   </div>
   <div class="bar">
@@ -43,12 +43,17 @@ footer{background:linear-gradient(180deg,#5a1428,#43101e);color:#f1e2d2;border-t
 .top{display:grid;grid-template-columns:1.6fr 1fr 1.2fr;gap:3rem;padding:4rem 0 3rem}
 .brand{display:flex;flex-direction:column;gap:.5rem}
 .name{font-family:var(--head);font-size:1.5rem;color:var(--peach-d);line-height:1.2}
-.brand small{word-spacing:normal;letter-spacing:.2em;text-transform:uppercase;font-size:.68rem;color:#e6cdb5}
+:global(html[lang=en]) .name{font-size:1.75rem}
+.brand small{font-family:var(--deva);word-spacing:normal;letter-spacing:0;text-transform:none;font-size:.8rem;line-height:1.2;color:#e6cdb5;margin-top:-.5rem}
 .brand p{max-width:34ch;font-size:.95rem;color:#e9d6c3}
+.flogo{width:110px;height:110px;object-fit:contain;display:block;margin-bottom:.4rem}
+@media(max-width:600px){.flogo{width:92px;height:92px}}
 .brand .loc{margin-top:.4rem}
 .socrow{display:flex;flex-direction:column;gap:.7rem}
 .col a.sl{display:flex;align-items:center;gap:.7rem}
 .sl b{width:2.2rem;height:2.2rem;flex:none;border-radius:50%;border:1px solid #ffffff40;display:grid;place-items:center;transition:background .25s,color .25s,border-color .25s}
+.sl span{line-height:1.3}
+:global(html[lang=hi]) .sl span{position:relative;top:2px}
 .sl svg{width:1.05rem;height:1.05rem}
 .col a.sl:hover b{background:var(--peach-d);color:#43101e;border-color:var(--peach-d)}
 .col{display:flex;flex-direction:column;gap:.55rem}

@@ -1,0 +1,45 @@
+---
+const { slides, caption } = Astro.props as { slides: { src: string; alt: string }[]; caption: string };
+---
+<div class="bc" id="bc" role="region" aria-roledescription="carousel">
+  <div class="frame">
+    {slides.map((s, i) => <img class="bs" src={s.src} alt={s.alt} style={`opacity:${i === 0 ? 1 : 0}`} loading={i === 0 ? 'eager' : 'lazy'} draggable="false" />)}
+    <div class="dots">{slides.map((_, i) => <button type="button" class:list={['dot', { on: i === 0 }]} data-i={i} aria-label={`Slide ${i + 1}`}></button>)}</div>
+  </div>
+  <p class="cap">{caption}</p>
+</div>
+<style>
+.frame{position:relative;aspect-ratio:1200/731;overflow:hidden;background:#f3ead8;touch-action:pan-y}
+.bs{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:opacity;user-select:none}
+.bs:nth-of-type(1){object-position:30% 40%}
+.dots{position:absolute;left:50%;bottom:.6rem;transform:translateX(-50%);display:flex;gap:.45rem;z-index:3}
+.dot{width:.5rem;height:.5rem;border-radius:99px;border:0;padding:0;background:#ffffffa0;box-shadow:0 0 0 1px #0003;cursor:pointer;transition:width .3s,background .3s}
+.dot.on{width:1.3rem;background:#fff}
+.cap{margin:0;padding:.6rem .3rem .3rem;font-size:.88rem;line-height:1.55;color:var(--maroon-d)}
+</style>
+<script>
+  import { animate } from 'motion';
+  const root = document.getElementById('bc');
+  if (root) {
+    const slides = [...root.querySelectorAll<HTMLElement>('.bs')];
+    const dots = [...root.querySelectorAll<HTMLElement>('.dot')];
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let cur = 0, timer = 0;
+    const go = (n: number) => {
+      n = (n + slides.length) % slides.length;
+      if (n === cur) return;
+      const from = slides[cur], to = slides[n];
+      to.style.zIndex = '2'; from.style.zIndex = '1';
+      animate(to, { opacity: [0, 1] }, { duration: reduce ? 0 : 0.9, ease: 'easeInOut' });
+      setTimeout(() => { if (from !== slides[cur]) from.style.opacity = '0'; }, reduce ? 0 : 1000);
+      dots[cur]?.classList.remove('on'); dots[n]?.classList.add('on');
+      cur = n;
+    };
+    const start = () => { clearInterval(timer); timer = window.setInterval(() => go(cur + 1), 6000); };
+    start();
+    dots.forEach(d => d.addEventListener('click', () => { go(+d.dataset.i!); start(); }));
+    let x0 = 0;
+    root.addEventListener('pointerdown', e => { x0 = e.clientX; });
+    root.addEventListener('pointerup', e => { const d = e.clientX - x0; if (Math.abs(d) > 50) { go(cur + (d < 0 ? 1 : -1)); start(); } });
+  }
+</script>

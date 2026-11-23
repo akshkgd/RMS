@@ -6,22 +6,35 @@ import { content, type Lang } from '../data/i18n';
 const { lang = 'hi' } = Astro.props as { lang?: Lang };
 const c = content[lang];
 const ui = c.ui;
-const wa = site.whatsapp ? `https://wa.me/${site.whatsapp}` : '';
-const tel = site.phone ? `tel:${site.phone.replace(/\s/g, '')}` : '';
+const mk = (who: string, phone: string, whatsapp: string) => ({
+  who,
+  phone,
+  tel: phone ? `tel:${phone.replace(/\s/g, '')}` : '',
+  wa: whatsapp ? `https://wa.me/${whatsapp}?text=${encodeURIComponent(ui.waMsg)}` : '',
+});
+const numbers = [mk(ui.contactWho[0], site.phone, site.whatsapp), mk(ui.contactWho[1], site.phone2, site.whatsapp2)].filter(n => n.tel || n.wa);
 ---
-<Base lang={lang} title={ui.contact}>
-  <div class="page-hero"><div class="wrap"><h1>{ui.contact}</h1></div></div>
+<Base lang={lang} title={ui.contact} solidNav>
   <section class="cream">
     <div class:list={[site.formEndpoint ? 'wrap two' : 'wrap solo']}>
       <div>
         <SectionTitle title={ui.getInTouch} />
         <p class:list={[lang === 'hi' ? 'deva' : '', 'intro']}>{c.contactIntro}</p>
         {site.address && <p class="addr">{site.address}</p>}
-        <div class="actions">
-          {tel && <a class="btn" href={tel}>{ui.call} {site.phone}</a>}
-          {wa && <a class="btn" href={wa} target="_blank" rel="noopener">{ui.whatsapp}</a>}
+        <div class="numbers">
+          {numbers.map(n => (
+            <div class="num">
+              <span class:list={['who', { deva: lang === 'hi' }]}>{n.who}</span>
+              <b>{n.phone}</b>
+              <div class="actions">
+                {n.tel && <a class="btn" href={n.tel}>{ui.call}</a>}
+                {n.wa && <a class="btn" href={n.wa} target="_blank" rel="noopener">{ui.whatsapp}</a>}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="actions more">
           {site.email && <a class="btn" href={`mailto:${site.email}`}>{site.email}</a>}
-          <a class="btn" href={site.instagram} target="_blank" rel="noopener">{ui.msgInsta}</a>
         </div>
       </div>
       {site.formEndpoint && (
@@ -39,6 +52,10 @@ const tel = site.phone ? `tel:${site.phone.replace(/\s/g, '')}` : '';
 .intro{line-height:1.9;margin-bottom:1.2rem}
 .addr{margin-bottom:1.2rem}
 .actions{display:flex;flex-wrap:wrap;gap:.8rem}
+.numbers{display:grid;gap:1.4rem;margin-bottom:1.6rem}
+.who{display:block;font-size:.95rem;color:#6b5a50;margin-bottom:.1rem}
+.num b{display:block;font-family:var(--jos);font-weight:600;font-size:1.15rem;color:var(--maroon-d);margin-bottom:.6rem;letter-spacing:.02em}
+.more{margin-top:.2rem}
 form{display:grid;gap:1rem}
 input,textarea{font:inherit;padding:.8rem 1rem;border:1px solid #d8c8ab;background:#fff}
 button{justify-self:start}

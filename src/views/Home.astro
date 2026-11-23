@@ -11,6 +11,8 @@ const { lang = 'hi' } = Astro.props as { lang?: Lang };
 const c = content[lang];
 const { intro, book, gurukulInfo: gurukul, events, ui } = c;
 const dv = lang === 'hi' ? 'deva' : '';
+// Landing page: the scholarly-profile lines continue the last biography paragraph (no separate section)
+const merged = [...intro.paras.slice(0, -1), [intro.paras[intro.paras.length - 1], ...intro.scholar].join(' ')];
 const hasVideo = exists('videos/intro.mp4');
 const hasPoster = exists('images/intro-poster.jpg');
 const hasGurukulPhoto = exists('images/gurukul.jpg');
@@ -31,7 +33,7 @@ const hasGurukulPhoto = exists('images/gurukul.jpg');
   </section>
 
   <!-- 2. Intro -->
-  <section class="aboutbg">
+  <section class="aboutbg" id="about">
     <div class:list={[hasVideo ? 'wrap two' : 'wrap solo']}>
       {hasVideo && (
         <div class="vid">
@@ -40,17 +42,14 @@ const hasGurukulPhoto = exists('images/gurukul.jpg');
       )}
       <div>
         <SectionTitle title={intro.heading} />
-        {intro.paras.map(t => <p class:list={[dv,"ipara"]}>{t}</p>)}
-        <div>
-          <h3 class:list={[dv,"ischolar"]}>{intro.scholarTitle}</h3>
-          {intro.scholar.map(t => <p class:list={[dv,"ipara"]}>{t}</p>)}
-        </div>
+        {merged.map(t => <p class:list={[dv,"ipara","read"]}>{t}</p>)}
+        <p class="introbtn"><a class="btn" href={lp(lang,'/about')}>{ui.aboutGurukul}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></p>
       </div>
     </div>
   </section>
 
   <!-- 3. Upcoming events -->
-  <section class="maroon events">
+  <section class="maroon events" id="events">
     <div class="wrap">
       <SectionTitle title={ui.upcoming} center orn light />
       <EventsGrid events={events} lang={lang} />
@@ -58,14 +57,14 @@ const hasGurukulPhoto = exists('images/gurukul.jpg');
   </section>
 
   <!-- 4. Gurukul -->
-  <section class="cream">
-    <div class:list={[hasGurukulPhoto ? 'wrap two' : 'wrap solo']}>
-      {hasGurukulPhoto && <Photo file="gurukul.jpg" label={c.gurukul} ratio="4/3" arch={false} />}
-      <div>
+  <section class="cream" id="prakalp">
+    <div class:list={[hasGurukulPhoto ? 'wrap two gk' : 'wrap solo']}>
+      {hasGurukulPhoto && <div class="gkimg"><Photo file="gurukul.jpg" label={c.gurukul} ratio="4/3" arch={false} /><a class="btn gkon" href={lp(lang,'/gurukul')}>{ui.aboutGurukul}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div>}
+      <div class="gktxt">
         <SectionTitle title={c.gurukul} />
-        <p class:list={[dv,"gkp"]}>{gurukul.text}</p>
-        <ul class:list={[dv,"list"]}>{gurukul.subjects.map(x => <li>{x}</li>)}</ul>
-        <p style="margin-top:1.4rem"><a class="btn" href={lp(lang,'/gurukul')}>{ui.aboutGurukul}</a></p>
+        <p class:list={[dv,"gkp","read"]}>{gurukul.text}</p>
+        <div class="stats">{c.stats.map(([n, l]) => <div class="stat"><b>{n}</b><span>{l}</span></div>)}</div>
+        <p class:list={['gkbtn', { mob: hasGurukulPhoto }]}><a class="btn" href={lp(lang,'/gurukul')}>{ui.aboutGurukul}</a></p>
       </div>
     </div>
   </section>
@@ -77,7 +76,7 @@ const hasGurukulPhoto = exists('images/gurukul.jpg');
       <div>
         <SectionTitle title={book.title} sub={book.subtitle} />
         <p class="brole">{book.by} {book.author}</p>
-        {book.text.map(t => <p style="margin-top:1rem">{t}</p>)}
+        {book.text.map(t => <p class="read" style="margin-top:1rem">{t}</p>)}
         <p style="margin-top:1.5rem"><button type="button" class="btn" id="order">{book.cta}</button></p>
       </div>
     </div>
@@ -129,8 +128,11 @@ const hasGurukulPhoto = exists('images/gurukul.jpg');
 .aboutbg::before{content:'';position:absolute;inset:0;z-index:-1;background:url(/images/about-bg.webp) center/cover no-repeat;filter:sepia(.55) saturate(.8) hue-rotate(-6deg)}
 .vid{width:100%;aspect-ratio:16/9;background:#000}
 .vid video{display:block;width:100%;height:100%;object-fit:cover}
-.ischolar{color:var(--maroon-d);font-size:1.4rem;margin:1.6rem 0 .8rem}
-.ipara{margin-bottom:1.2rem;line-height:1.9}
+.introbtn{margin-top:.6rem;display:flex}
+.introbtn .btn{display:inline-flex;align-items:center;gap:.5rem}
+.introbtn svg{width:1.05rem;height:1.05rem;flex:none;position:relative}
+:global(html[lang=hi]) .introbtn svg{top:-3px}
+.ipara{margin-bottom:1.3rem}
 .events{padding:110px 0 80px;position:relative;overflow:hidden;
   background:
     radial-gradient(ellipse 70% 45% at 50% 0%,#a63a4f55,transparent 70%),
@@ -140,11 +142,49 @@ const hasGurukulPhoto = exists('images/gurukul.jpg');
 .events::before{left:-260px;top:-120px}
 .events::after{right:-260px;bottom:-160px}
 .events .wrap{position:relative;z-index:1}
-.gkp{font-size:1.1rem;line-height:1.9;margin-bottom:1.4rem}
+.gkp{margin-bottom:1.8rem}
+/* Gurukul: photo and text column share the same top and bottom edges */
+.gk{align-items:stretch}
+.gkimg{position:relative;min-height:480px}
+.gk{padding-block:2.5rem}
+.gkimg :global(.ph){position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto !important;object-fit:cover}
+.gktxt{display:flex;flex-direction:column}
+.gktxt :global(.st){margin-bottom:1.2rem}
+.gktxt :global(h2){margin-top:.05em}
+:global(html[lang=en]) .gktxt :global(h2){margin-top:-.22em}
+.gkbtn{padding-top:1.6rem;display:flex}
+.gkbtn.mob{display:none}
+.gkimg::after{content:'';position:absolute;left:0;right:0;bottom:0;height:45%;background:linear-gradient(transparent,#2b101899);pointer-events:none}
+.gkon{display:inline-flex;align-items:center;gap:.5rem;position:absolute;left:1.4rem;bottom:1.4rem;z-index:2;box-shadow:0 6px 18px #0006;transition:transform .25s,background .25s}
+.gkon svg{width:1.05rem;height:1.05rem;flex:none;transition:transform .25s;position:relative;top:0}
+:global(html[lang=hi]) .gkon svg{top:-3px}
+.gkon:hover{transform:translateY(-3px);background:var(--maroon-d)}
+.gkon:hover svg{transform:translate(2px,-2px)}
+.gktxt .stats{margin-top:auto}
+/* Mobile order: heading → photo → tags → description → button */
+@media(max-width:800px){
+  .gk{display:flex;flex-direction:column;gap:0;padding-block:0}
+  .gktxt{display:contents}
+  .gktxt :global(.st){order:1;margin-bottom:1.2rem}
+  .gkimg{order:2;min-height:0;aspect-ratio:4/3;margin-bottom:1.4rem}
+  .gkimg::after,.gkon{display:none}
+  .gktxt .stats{order:3;margin:0 0 1.6rem}
+  .gktxt .gkp{order:4;margin-bottom:0}
+  .gkbtn.mob{display:flex;order:5;padding-top:1.6rem}
+}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:1.8rem;background:#fff;border-radius:14px;box-shadow:0 6px 22px #5a142818;overflow:hidden}
+.stat{padding:1.1rem .6rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:.4rem}
+.stat + .stat{border-left:1px solid #ecdcc4}
+.stat b{font-family:var(--jos);font-weight:500;font-size:1.45rem;color:var(--maroon);line-height:1.2;height:2.4rem;display:flex;align-items:center;justify-content:center;letter-spacing:0}
+.stat span{font-family:var(--body);font-weight:500;font-size:.85rem;color:#6b5a50;line-height:1.4;letter-spacing:.01em}
+:global(html[lang=hi]) .stat b{font-family:'Noto Sans Devanagari','DM Sans',sans-serif;font-size:1.35rem}
+:global(html[lang=hi]) .stat span{font-family:'Noto Sans Devanagari','DM Sans',sans-serif;font-size:.82rem}
+@media(max-width:600px){.stat b,:global(html[lang=hi]) .stat b{font-size:1.05rem;height:2rem}.stat span,:global(html[lang=hi]) .stat span{font-size:.72rem}}
+.gkp{margin-bottom:1.8rem}
 .cover{width:min(320px,100%);margin-inline:auto}
 .cover img{display:block;width:100%;height:auto;filter:drop-shadow(0 18px 14px #3a0f1c55) drop-shadow(0 4px 4px #3a0f1c33)}
 .bsub{color:var(--maroon);margin-top:.2rem}
-.brole{font-size:.9rem;color:#6b5a50;margin-top:.5rem}
+.brole{font-size:.95rem;color:#6b5a50;margin-top:-1rem}
 .vgrid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
 .yt{aspect-ratio:16/9;background:#000;border:6px solid #fff;box-shadow:0 10px 30px #5a142833}
 .yt iframe{width:100%;height:100%;border:0;display:block}

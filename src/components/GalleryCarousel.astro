@@ -1,0 +1,59 @@
+---
+const { photos, alt } = Astro.props as { photos: string[]; alt: string };
+const many = photos.length > 1;
+---
+<div class="gc" id="gc" role="region" aria-roledescription="carousel" aria-label={alt}>
+  <div class="frame">
+    {photos.map((src, i) => <img class="gs" src={src} alt={alt} style={`opacity:${i === 0 ? 1 : 0}`} loading={i === 0 ? 'eager' : 'lazy'} draggable="false" />)}
+    {many && (
+      <>
+        <button type="button" class="nav prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+        <button type="button" class="nav next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+      </>
+    )}
+  </div>
+  {many && <div class="dots">{photos.map((_, i) => <button type="button" class:list={['dot', { on: i === 0 }]} data-i={i} aria-label={`Photo ${i + 1}`}></button>)}</div>}
+</div>
+<style>
+.gc{max-width:1000px;margin-inline:auto}
+.frame{position:relative;aspect-ratio:3/2;overflow:hidden;background:#2b1018;border-radius:6px;box-shadow:0 14px 36px #5a142830;touch-action:pan-y}
+.gs{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:opacity,transform;user-select:none}
+.nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:2.8rem;height:2.8rem;border-radius:50%;border:0;background:#ffffffd9;color:var(--maroon-d);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px #0004;transition:background .25s,transform .25s}
+.nav:hover{background:#fff;transform:translateY(-50%) scale(1.08)}
+.nav svg{width:1.3rem;height:1.3rem}
+.prev{left:1rem}.next{right:1rem}
+.dots{display:flex;justify-content:center;gap:.55rem;margin-top:1.1rem}
+.dot{width:.6rem;height:.6rem;border-radius:99px;border:0;padding:0;background:#5a142840;cursor:pointer;transition:width .3s,background .3s}
+.dot.on{width:1.6rem;background:var(--maroon)}
+@media(max-width:600px){.nav{width:2.3rem;height:2.3rem}.prev{left:.5rem}.next{right:.5rem}}
+</style>
+<script>
+  import { animate } from 'motion';
+  const root = document.getElementById('gc');
+  if (root) {
+    const slides = [...root.querySelectorAll<HTMLElement>('.gs')];
+    const dots = [...root.querySelectorAll<HTMLElement>('.dot')];
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let cur = 0, timer = 0;
+    const go = (n: number) => {
+      n = (n + slides.length) % slides.length;
+      if (n === cur) return;
+      const from = slides[cur], to = slides[n];
+      to.style.zIndex = '2'; from.style.zIndex = '1';
+      if (!reduce) animate(to, { scale: [1.06, 1] }, { duration: 1.4, ease: [0.22, 1, 0.36, 1] });
+      animate(to, { opacity: [0, 1] }, { duration: reduce ? 0 : 0.9, ease: 'easeInOut' });
+      setTimeout(() => { if (from !== slides[cur]) from.style.opacity = '0'; }, reduce ? 0 : 1000);
+      dots[cur]?.classList.remove('on'); dots[n]?.classList.add('on');
+      cur = n;
+    };
+    const stop = () => clearInterval(timer);
+    const start = () => { stop(); if (slides.length > 1) timer = window.setInterval(() => go(cur + 1), 5000); };
+    start();
+    root.querySelector('.prev')?.addEventListener('click', () => { go(cur - 1); start(); });
+    root.querySelector('.next')?.addEventListener('click', () => { go(cur + 1); start(); });
+    dots.forEach(d => d.addEventListener('click', () => { go(+d.dataset.i!); start(); }));
+    let x0 = 0;
+    root.addEventListener('pointerdown', e => { x0 = e.clientX; });
+    root.addEventListener('pointerup', e => { const d = e.clientX - x0; if (Math.abs(d) > 50) { go(cur + (d < 0 ? 1 : -1)); start(); } });
+  }
+</script>

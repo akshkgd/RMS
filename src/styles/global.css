@@ -1,14 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Gilda+Display&family=Josefin+Sans:wght@400;600&family=Tiro+Devanagari+Hindi&display=swap');
+html{scroll-behavior:smooth}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Instrument+Serif&family=Noto+Sans+Devanagari:wght@400;500;600&family=Tiro+Devanagari+Hindi&display=swap');
 :root{
   --maroon:#5a1428; --maroon-d:#43101e; --peach:#f3c79a; --peach-d:#eec78c;
   --cream:#faf1e3; --sand:#f3e3cc; --text:#424242;
-  --body:'Barlow',sans-serif; --head:'Gilda Display',serif; --jos:'Josefin Sans',sans-serif; --deva:'Tiro Devanagari Hindi',serif;
+  --body:'DM Sans',sans-serif; --head:'Instrument Serif',serif; --jos:'DM Sans',sans-serif; --deva:'Tiro Devanagari Hindi',serif;
   --pat-dark:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.07' stroke-width='1.2'%3E%3Ccircle cx='60' cy='60' r='38'/%3E%3Ccircle cx='60' cy='60' r='22'/%3E%3Cpath d='M60 12v96M12 60h96M26 26l68 68M94 26L26 94'/%3E%3C/g%3E%3C/svg%3E");
 }
 *{box-sizing:border-box;margin:0}
 body{font-family:var(--body);color:var(--text);background:#fff;line-height:1.7;font-size:16px}
 h1,h3{font-family:var(--head);font-weight:400;color:#000;line-height:1.2}
-h2{font-family:var(--jos);font-weight:400;color:#000;line-height:1.2;font-size:clamp(1.7rem,3.5vw,2.4rem)}
+h2{font-family:var(--head);font-weight:400;color:#000;line-height:1.15;font-size:clamp(1.9rem,3.8vw,2.7rem)}
 a{color:inherit}
 .deva{font-family:var(--deva)}
 .wrap{width:min(1200px,100% - 2rem);margin-inline:auto}
@@ -40,7 +41,20 @@ a:focus-visible,.btn:focus-visible,button:focus-visible{outline:2px solid var(--
 .tlink{color:var(--maroon);text-decoration:underline;text-underline-offset:4px;font-family:var(--jos);font-weight:600}
 
 /* Hindi pages: Devanagari-capable fonts for headings, buttons and nav */
-html[lang=hi]{--jos:'Tiro Devanagari Hindi','Josefin Sans',serif;--head:'Tiro Devanagari Hindi','Gilda Display',serif;--body:'Tiro Devanagari Hindi','Barlow',serif}
+html[lang=hi]{--jos:'Tiro Devanagari Hindi','DM Sans',serif;--head:'Tiro Devanagari Hindi','Instrument Serif',serif;--body:'Tiro Devanagari Hindi','DM Sans',serif}
 html[lang=hi] h2{font-family:var(--deva)}
 html[lang=hi] .sc,html[lang=hi] nav a,html[lang=hi] .rbtn span{text-transform:none;letter-spacing:0}
 html[lang=hi] .brand small{letter-spacing:0 !important;text-transform:none !important;font-size:.8rem !important}
+@media(max-width:600px){html[lang=hi] .brand small{font-size:.68rem !important}}
+
+/* Long-form reading text */
+.read{font-size:1.1rem;line-height:1.85;color:#2b1018}
+html[lang=hi] .read{font-family:'Noto Sans Devanagari','Tiro Devanagari Hindi',sans-serif;font-size:1.06rem;line-height:2.05;font-weight:400}
+@media(max-width:600px){html[lang=hi] .read{font-size:1.03rem;line-height:1.95}.read{font-size:1.05rem}}
+
+/* Devanagari glyphs sit high in their line box: nudge button labels down so they look centred */
+html[lang=hi] .btn,html[lang=hi] .tab{line-height:1.2;padding-top:calc(.85rem + 2px);padding-bottom:calc(.85rem - 2px)}
+
+/* English type scale: Instrument Serif is optically small, DM Sans stays light */
+html[lang=en] h1,html[lang=en] h3{letter-spacing:-.005em}
+.btn{font-weight:500}

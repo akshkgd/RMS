@@ -1,53 +1,74 @@
 ---
 import Base from '../layouts/Base.astro';
-import Photo from '../components/Photo.astro';
 import SectionTitle from '../components/SectionTitle.astro';
+import BlessingCarousel from '../components/BlessingCarousel.astro';
+import Study from '../components/Study.astro';
 import { exists } from '../lib/img';
-import { site } from '../data/site';
 import { content, type Lang } from '../data/i18n';
 const { lang = 'hi' } = Astro.props as { lang?: Lang };
 const c = content[lang];
-const { intro, gurukulInfo: gurukul, ui } = c;
+const { intro, ui } = c;
 const dv = lang === 'hi' ? 'deva' : '';
-const hasPortrait = exists('images/portrait.jpg');
+const hasPhoto = exists('images/childhood.jpg');
+const cap = intro.photoCap;
+const [first, ...others] = intro.paras;
 ---
 <Base lang={lang} title={ui.about} solidNav>
 
   <section class="cream">
-    <div class:list={[hasPortrait ? 'wrap two' : 'wrap solo']}>
-      {hasPortrait && <Photo file="portrait.jpg" label={c.name} arch={false} />}
-      <div>
-        <SectionTitle title={intro.heading} />
-        {intro.paras.map(t => <p class:list={[dv, 'para']}>{t}</p>)}
+    <div class="wrap solo bio">
+      <SectionTitle title={intro.heading} />
+      <div class="article">
+        <div class="cols">
+          <div class="txt">
+            <p class:list={[dv, 'para', 'read', 'o1']}>{first}</p>
+            {others[0] && <p class:list={[dv, 'para', 'read', 'o3']}>{others[0]}</p>}
+            {others[1] && <p class:list={[dv, 'para', 'read', 'o4']}>{others[1]}</p>}
+          </div>
+          <div class="aside">
+            {hasPhoto && (
+              <figure class="thumb o2">
+                <img src="/images/childhood.jpg" alt={cap} loading="lazy" />
+                <figcaption class:list={[dv]}><strong>{cap}</strong></figcaption>
+              </figure>
+            )}
+            <figure class="thumb photo2 o5">
+              <BlessingCarousel caption={intro.photoCap2} slides={[
+                { src: '/images/hero-2.jpg', alt: intro.photoCap2 },
+                { src: '/images/blessing.jpg', alt: intro.photoCap2 },
+              ]} />
+            </figure>
+          </div>
+        </div>
+        <h3 class:list={[dv, 'ischolar']}>{intro.scholarTitle}</h3>
+        {intro.scholar.map(t => <p class:list={[dv, 'para', 'read']}>{t}</p>)}
       </div>
     </div>
   </section>
 
-  <section class="sand">
-    <div class="wrap solo">
-      <SectionTitle title={intro.scholarTitle} />
-      {intro.scholar.map(t => <p class:list={[dv, 'para']}>{t}</p>)}
-    </div>
-  </section>
-
-  <section class="cream">
-    <div class="wrap solo">
-      <SectionTitle title={c.gurukul} />
-      <p class:list={[dv, 'para']}>{gurukul.text}</p>
-      <ul class:list={[dv, 'list']}>{gurukul.subjects.map(x => <li>{x}</li>)}</ul>
-    </div>
-  </section>
-
-  <section class="cream">
-    <div class="wrap solo">
-      <SectionTitle title={ui.guruParampara} />
-      <p class:list={[dv, 'para']}>{intro.guruLine(c.name, intro.guruTitle)}</p>
-      <p><a class="btn" href={site.guruInstagram} target="_blank" rel="noopener">{ui.followGuru}</a></p>
-    </div>
-  </section>
+  <Study lang={lang} tone="cream" flush />
 </Base>
 <style>
-.guru{margin-bottom:1.2rem;line-height:1.8}
-.guru strong{color:var(--maroon-d);font-weight:400}
-.para{margin-bottom:1.2rem;line-height:1.9}
+.article{display:flow-root}
+.para{margin-bottom:1.3rem}
+/* text on the left; the two photos on the right, first one level with the top of the text and last one level with its bottom */
+.cols{display:grid;grid-template-columns:minmax(0,1fr) min(320px,42%);gap:0 2rem;align-items:stretch}
+.txt{min-width:0}
+.txt .para:last-child{margin-bottom:0}
+.aside{display:flex;flex-direction:column;justify-content:space-between;gap:1.4rem}
+.cols{margin-bottom:0}
+.thumb{margin:0;background:#fff;border:1px solid #d9c9ae;padding:6px;box-shadow:0 4px 14px #5a142814}
+.thumb img{display:block;width:100%;height:auto;filter:grayscale(1) contrast(1.05) brightness(1.02)}
+.thumb.photo2{padding:6px 6px 0}
+.thumb figcaption{padding:.6rem .3rem .3rem;text-align:left}
+.thumb strong{display:block;font-weight:400;font-size:.88rem;line-height:1.55;color:var(--maroon-d)}
+@media(max-width:700px){
+  .cols{display:flex;flex-direction:column}
+  .txt,.aside{display:contents}
+  .para{order:0}
+  .o1{order:1}.o2{order:2}.o3{order:3}.o4{order:4}.o5{order:5}
+  .txt .para:last-child{margin-bottom:1.3rem}
+  .thumb{width:min(340px,100%);margin:.2rem 0 1.4rem}
+}
+.ischolar{color:var(--maroon-d);font-size:1.4rem;margin:2rem 0 .8rem}
 </style>
